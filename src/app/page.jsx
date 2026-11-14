@@ -69,9 +69,9 @@ const destaques = [
     },
 ];
 
-// Contorno de um trecho de nuvens (1440 de largura); é repetido 2x lado a lado
+// Contorno das nuvens (2880 de largura): sobe nas laterais e desce no meio, onde fica o mascote
 const contornoNuvem =
-    'M0 220V160a60 60 0 0 1 110-20a80 80 0 0 1 150 0a55 55 0 0 1 100 15a90 90 0 0 1 170-25a70 70 0 0 1 130 20a100 100 0 0 1 190-10a65 65 0 0 1 120 15a85 85 0 0 1 160-20a60 60 0 0 1 110 25a100 100 0 0 1 200 5V220Z';
+    'M0 760V130a63 63 0 1 1 100 52a101 101 0 0 1 170 109a56 56 0 1 1 95 30a123 123 0 0 1 220 108a66 66 0 1 1 115 24a96 96 0 0 1 180 67a59 59 0 1 1 105 7a123 123 0 0 1 240 51a67 67 0 1 1 120-8a48 48 0 0 1 95 18a57 57 0 1 1 100-18a85 85 0 0 1 170 2a56 56 0 1 1 95-29a111 111 0 0 1 220-29a70 70 0 1 1 115-48a93 93 0 0 1 180-46a67 67 0 1 1 105-59a130 130 0 0 1 240-99a82 82 0 1 1 120-83a53 53 0 0 1 95-49V760Z';
 
 // Faixa de nuvens em SVG (vetor = sempre nítida) na base da hero, que sobe ao rolar
 function CamadaNuvens({ className }) {
@@ -80,9 +80,8 @@ function CamadaNuvens({ className }) {
             className={`${styles.camadaNuvens} ${className}`}
             aria-hidden="true"
         >
-            <svg viewBox="0 0 2880 220" aria-hidden="true">
+            <svg viewBox="0 0 2880 760" aria-hidden="true">
                 <path d={contornoNuvem} />
-                <path d={contornoNuvem} transform="translate(1440 0)" />
             </svg>
             <span />
         </div>
