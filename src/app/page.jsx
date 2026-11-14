@@ -1,43 +1,217 @@
-export default function Home() {
+import {
+    Compass,
+    Earth,
+    Globe,
+    Map,
+    Mountain,
+    Search,
+    Users,
+} from 'lucide-react';
+import { Dosis } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
+import ScrollEffects from '@/components/ScrollEffects';
+import styles from './page.module.css';
+
+const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
+
+const caminhos = [
+    {
+        id: 1,
+        titulo: 'Geografia Física',
+        descricao:
+            'Relevo, clima, hidrografia e vegetação: como a natureza molda o planeta.',
+        href: '/fisica',
+        Icon: Mountain,
+    },
+    {
+        id: 2,
+        titulo: 'Geografia Humana',
+        descricao:
+            'População, cidades, economia e cultura: como a sociedade ocupa o espaço.',
+        href: '/humana',
+        Icon: Users,
+    },
+    {
+        id: 3,
+        titulo: 'Cartografia',
+        descricao:
+            'Mapas, escalas e projeções: como representamos o espaço geográfico.',
+        href: '/cartografia',
+        Icon: Map,
+    },
+];
+
+const destaques = [
+    {
+        id: 1,
+        titulo: 'O que é Geografia?',
+        descricao:
+            'Entenda o objeto de estudo da Geografia e seus principais conceitos.',
+        href: '/conteudos/o-que-e-geografia',
+        Icon: Globe,
+    },
+    {
+        id: 2,
+        titulo: 'Orientação e Coordenadas',
+        descricao:
+            'Pontos cardeais, latitude e longitude para se localizar no mundo.',
+        href: '/conteudos/coordenadas',
+        Icon: Compass,
+    },
+    {
+        id: 3,
+        titulo: 'A Terra no Universo',
+        descricao:
+            'Movimentos de rotação e translação, estações do ano e fusos horários.',
+        href: '/conteudos/terra',
+        Icon: Earth,
+    },
+];
+
+// Contorno de um trecho de nuvens (1440 de largura); é repetido 2x lado a lado
+const contornoNuvem =
+    'M0 220V160a60 60 0 0 1 110-20a80 80 0 0 1 150 0a55 55 0 0 1 100 15a90 90 0 0 1 170-25a70 70 0 0 1 130 20a100 100 0 0 1 190-10a65 65 0 0 1 120 15a85 85 0 0 1 160-20a60 60 0 0 1 110 25a100 100 0 0 1 200 5V220Z';
+
+// Faixa de nuvens em SVG (vetor = sempre nítida) na base da hero, que sobe ao rolar
+function CamadaNuvens({ className }) {
     return (
-        <main className="flex min-h-screen w-full flex-col items-center justify-start bg-[image:linear-gradient(to_bottom,rgba(10,15,30,0.35),rgba(10,15,30,0.5)),url('https://minio.codeverse.dev.br/mural/1785759396834-148tgv.jpeg')] bg-cover bg-center bg-no-repeat px-6 py-8 text-center font-sans">
-            <div className="mt-60 flex flex-col items-center">
-                <h1 className="m-0 bg-[linear-gradient(135deg,#a5b4fc_0%,#38bdf8_100%)] bg-clip-text text-[clamp(2.5rem,6vw,4.5rem)] font-extrabold tracking-[-0.02em] text-transparent">
-                    Codeverse
-                </h1>
-                <p className="mt-1 text-[clamp(1rem,2.5vw,1.4rem)] font-normal tracking-[0.15em] text-slate-300 uppercase">
-                    Explore. Aprenda. Colabore.
-                </p>
+        <div
+            className={`${styles.camadaNuvens} ${className}`}
+            aria-hidden="true"
+        >
+            <svg viewBox="0 0 2880 220" aria-hidden="true">
+                <path d={contornoNuvem} />
+                <path d={contornoNuvem} transform="translate(1440 0)" />
+            </svg>
+            <span />
+        </div>
+    );
+}
 
-                <a
-                    href="https://codeverse.dev.br"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-[0.6rem] rounded-full bg-[linear-gradient(135deg,#a5b4fc_0%,#38bdf8_100%)] px-9 py-[0.85rem] font-bold text-[#0a0f1e] no-underline transition-[transform,box-shadow] duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(56,189,248,0.35)]">
-                    <svg
-                        className="h-[25px] w-[25px] animate-[spin_6s_linear_infinite]"
-                        viewBox="-11.5 -10.23174 23 20.46348"
-                        width="25"
-                        height="25"
-                        aria-hidden="true">
-                        <circle r="2.05" fill="currentColor" />
-                        <g stroke="currentColor" strokeWidth="1" fill="none">
-                            <ellipse rx="11" ry="4.2" />
-                            <ellipse rx="11" ry="4.2" transform="rotate(60)" />
-                            <ellipse rx="11" ry="4.2" transform="rotate(120)" />
-                        </g>
-                    </svg>
-                    Ver material tutorial
-                </a>
+function Card({ titulo, descricao, href, Icon }) {
+    return (
+        <Link href={href} className={styles.card}>
+            <span className={styles.cardIcon}>
+                <Icon size={32} />
+            </span>
+            <h3>{titulo}</h3>
+            <p>{descricao}</p>
+            <span className={styles.cardLink}>Saiba mais →</span>
+        </Link>
+    );
+}
 
-                <p className="mt-4 text-[0.85rem] tracking-[0.1em] text-slate-400 uppercase">
-                    Scaffolding oficial - Codeverse
-                </p>
-            </div>
+export default function Page() {
+    return (
+        <>
+            <ScrollEffects />
 
-            <footer className="text-[0.85rem] text-slate-400/60">
-                <p>Pouco pra quem vê..., muito pra quem aprende.</p>
+            <header className={styles.hero}>
+                <Image
+                    src="/images/hero.webp"
+                    alt=""
+                    width={2560}
+                    height={1441}
+                    priority
+                    unoptimized
+                    className={styles.heroImage}
+                />
+
+                <div className={styles.heroContent}>
+                    <form className={styles.search} role="search">
+                        <Search size={18} />
+                        <input
+                            type="search"
+                            placeholder="Pesquisar conteúdos..."
+                            aria-label="Pesquisar"
+                        />
+                    </form>
+
+                    <div className={styles.brand}>
+                        <Image
+                            src="/images/logo.png"
+                            alt="Logo GeoGoats"
+                            width={572}
+                            height={572}
+                            priority
+                            className={styles.logo}
+                        />
+                        <h1 className={dosis.className}>GEOGOATS</h1>
+                        <p>
+                            Fique conectado com as notícias mais recentes da
+                            geografia.
+                        </p>
+                    </div>
+                </div>
+
+                <CamadaNuvens className={styles.nuvensFundo} />
+                <CamadaNuvens className={styles.nuvensFrente} />
+            </header>
+
+            <main className={styles.main}>
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2>Por Onde Começar?</h2>
+                        <p>
+                            Três caminhos complementares para entender a Terra:
+                            a natureza, a sociedade e a forma como representamos
+                            o espaço.
+                        </p>
+                    </div>
+
+                    <div
+                        data-revelar
+                        className={`${styles.mascote} ${styles.mascoteDireita}`}
+                    >
+                        <Image
+                            src="/images/mascote-feliz.png"
+                            alt="Mascote GeoGoats comemorando"
+                            width={700}
+                            height={745}
+                        />
+                    </div>
+
+                    <div className={styles.cards}>
+                        {caminhos.map(({ id, ...card }) => (
+                            <Card key={id} {...card} />
+                        ))}
+                    </div>
+                </section>
+
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2>Conteúdos em Destaque</h2>
+                        <p>
+                            Temas introdutórios que servem de base para o
+                            restante dos estudos.
+                        </p>
+                    </div>
+
+                    <div
+                        data-revelar
+                        className={`${styles.mascote} ${styles.mascoteEsquerda}`}
+                    >
+                        <Image
+                            src="/images/mascote-coracao.png"
+                            alt="Mascote GeoGoats apaixonado"
+                            width={766}
+                            height={766}
+                        />
+                    </div>
+
+                    <div className={styles.cards}>
+                        {destaques.map(({ id, ...card }) => (
+                            <Card key={id} {...card} />
+                        ))}
+                    </div>
+                </section>
+            </main>
+
+            <footer className={styles.footer}>
+                <p>GeoGoats &copy; {new Date().getFullYear()}</p>
+                <p>Next.js - React - Lucide</p>
             </footer>
-        </main>
+        </>
     );
 }
