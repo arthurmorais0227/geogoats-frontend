@@ -54,14 +54,14 @@
 }
 
 .nuvensFundo {
-    top: calc(100% - 12vw - 3rem);
+    top: calc(100% - 27vw - 3rem);
     z-index: 3;
     color: #cfeac8;
     transform: translateY(calc(min(var(--scroll, 0), 900) * -0.22px)) scaleX(-1);
 }
 
 .nuvensFrente {
-    top: calc(100% - 9vw - 3rem);
+    top: calc(100% - 24vw - 3rem);
     z-index: 4;
     color: var(--fundo);
     transform: translateY(calc(min(var(--scroll, 0), 900) * -0.3px));
