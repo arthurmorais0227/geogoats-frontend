@@ -305,10 +305,6 @@ export default function NoticiasPage() {
                     </section>
                 </main>
 
-                <footer className={styles.footer}>
-                    <p>GeoGoats &copy; {new Date().getFullYear()}</p>
-                    <p>Aprender Geografia é descobrir o mundo.</p>
-                </footer>
             </div>
         </MotionConfig>
     );

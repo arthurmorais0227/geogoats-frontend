@@ -1,6 +1,5 @@
 .hero,
-.main,
-.footer {
+.main {
     --escuro: #01151a;
     --fundo: #C4F6DF;
     --card: #d9f3d0;
@@ -8,7 +7,6 @@
     --titulo: #4a7d5c;
     --subtitulo: #8dbb86;
     --verde: #3fcf4f;
-    --rodape: #97bc8b;
 }
 
 /* ===== Hero ===== */
@@ -257,19 +255,6 @@
     50% {
         transform: translateY(-10px);
     }
-}
-
-/* ===== Rodapé ===== */
-.footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.25rem;
-    min-height: 180px;
-    padding: 2rem;
-    text-align: center;
-    background-color: var(--rodape);
-    color: #fff;
 }
 
 /* ===== Responsivo ===== */
