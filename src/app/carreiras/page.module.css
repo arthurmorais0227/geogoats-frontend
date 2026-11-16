@@ -1,0 +1,436 @@
+.hero,
+.main {
+    --fundo: #e6fbdf;
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: min(70vw, 920px);
+    min-height: 580px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #20d3a6;
+}
+
+.heroImage {
+    object-fit: cover;
+    object-position: center 48%;
+    transform: translateY(calc(min(var(--scroll, 0), 900) * 0.18px));
+    will-change: transform;
+}
+
+.heroContent {
+    position: absolute;
+    z-index: 2;
+    top: 4rem;
+    left: 50%;
+    display: flex;
+    width: min(90%, 700px);
+    flex-direction: column;
+    align-items: center;
+    translate: -50% 0;
+    color: #000000;
+    text-align: center;
+}
+
+.heroContent h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.heroContent p {
+    margin-top: 0.75rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 1.4;
+    text-shadow: 0 2px 12px rgba(1, 21, 26, 0.55);
+}
+
+.camadaNuvens {
+    position: absolute;
+    left: -5%;
+    width: 110%;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.camadaNuvens svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    fill: currentColor;
+}
+
+.camadaNuvens span {
+    display: block;
+    height: 100vh;
+    margin-top: -1px;
+    background-color: currentColor;
+}
+
+.nuvensFundo {
+    top: calc(100% - 27vw - 3rem);
+    z-index: 3;
+    color: #cfeac8;
+    transform: translateY(calc(min(var(--scroll, 0), 900) * -0.12px)) scaleX(-1);
+}
+
+.nuvensFrente {
+    top: calc(100% - 24vw - 3rem);
+    z-index: 4;
+    color: var(--fundo);
+    transform: translateY(calc(min(var(--scroll, 0), 900) * -0.18px));
+    filter: drop-shadow(0 -6px 14px rgba(1, 21, 26, 0.18));
+}
+
+.main {
+    position: relative;
+    z-index: 1;
+    margin-top: -3rem;
+    padding: 5rem 1.5rem 8rem;
+    background-color: var(--fundo);
+}
+
+.intro {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.saudacao {
+    display: flex;
+    width: min(680px, 100%);
+    align-items: center;
+    gap: 1rem;
+}
+
+.mascote {
+    display: grid;
+    width: 150px;
+    height: 150px;
+    flex: 0 0 150px;
+    place-items: center;
+    overflow: hidden;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: #d8f1d2;
+    box-shadow: 0 3px 12px rgba(1, 21, 26, 0.12);
+}
+
+.mascoteImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 26%;
+}
+
+.balao {
+    position: relative;
+    height: 100px;
+    margin: 0 0 0 1rem;
+    flex: 1;
+    border: 1px solid #e4e4e4;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(1, 21, 26, 0.04);
+}
+
+.balao::before {
+    position: absolute;
+    bottom: 3px;
+    left: -11px;
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-right: 12px solid #fff;
+    content: "";
+}
+
+.introText {
+    text-align: center;
+}
+
+.introText h2 {
+    color: #111;
+    font-size: clamp(2.5rem, 3.2vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.introText p {
+    margin-top: 0.25rem;
+    color: #111;
+    font-size: 1.25rem;
+}
+
+.careerSection {
+    margin: 2rem auto 0;
+}
+
+.careerGridWrap {
+    position: relative;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+}
+
+.careerGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+}
+
+.careerCard {
+    min-width: 0;
+    min-height: 270px;
+    padding: 1.5rem;
+    border: 1px solid #d2d2d2;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(1, 21, 26, 0.035);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cardColor {
+    width: 56px;
+    flex: 0 0 56px;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: var(--accent);
+}
+
+.cardTitle {
+    min-width: 0;
+}
+
+.cardTitle h3 {
+    color: #111;
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.cardTitle > span {
+    display: block;
+    width: 44px;
+    height: 10px;
+    margin-top: 0.4rem;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+.cardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.cardDetails dt {
+    color: #278a49;
+    font-size: clamp(0.65rem, 0.9vw, 0.8rem);
+    line-height: 1.25;
+}
+
+.cardDetails dd {
+    color: #111;
+    font-size: clamp(0.65rem, 0.9vw, 0.8rem);
+    line-height: 1.3;
+}
+
+.careerMascote {
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    pointer-events: none;
+}
+
+.careerMascote img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.careerMascoteLeft {
+    top: -3rem;
+    left: -3.5rem;
+}
+
+.careerMascoteRight {
+    position: absolute;
+    z-index: 1;
+    top: 34%;
+    right: -4.5rem;
+    display: flex;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.careerMascoteRight img {
+    display: block;
+    width: 120px;
+    height: auto;
+    transform: scaleX(-1);
+}
+
+.careerMascoteRight span {
+    margin: 0.5rem 0 0 -0.25rem;
+    color: #36c99a;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .hero {
+        height: 78vw;
+        min-height: 520px;
+    }
+
+    .heroContent {
+        top: 2.5rem;
+    }
+
+    .main {
+        padding-top: 4rem;
+    }
+
+    .careerGrid {
+        gap: 1.25rem;
+    }
+
+    .careerCard {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .hero {
+        min-height: 480px;
+    }
+
+    .main {
+        padding-right: 1.25rem;
+        padding-bottom: 5rem;
+        padding-left: 1.25rem;
+    }
+
+    .intro {
+        gap: 2rem;
+    }
+
+    .mascote {
+        width: 72px;
+        height: 72px;
+        flex-basis: 72px;
+    }
+
+    .balao {
+        height: 54px;
+    }
+
+    .careerGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .careerCard {
+        min-height: 0;
+        padding: 1.25rem;
+    }
+
+    .cardColor {
+        width: 48px;
+        flex-basis: 48px;
+    }
+
+    .cardTitle h3 {
+        font-size: 1rem;
+    }
+
+    .cardDetails dt,
+    .cardDetails dd {
+        font-size: 0.8rem;
+    }
+
+    .careerMascote,
+    .careerMascoteRight {
+        display: none;
+    }
+}
+
+@media (min-width: 561px) and (max-width: 700px) {
+    .careerGrid {
+        gap: 1.25rem 1rem;
+    }
+
+    .careerCard {
+        min-height: 198px;
+        padding: 0.8rem 1.1rem;
+        border-radius: 11px;
+    }
+
+    .cardHeader {
+        gap: 0.55rem;
+    }
+
+    .cardColor {
+        width: 37px;
+        flex-basis: 37px;
+        border-radius: 5px;
+    }
+
+    .cardTitle h3 {
+        font-size: 0.78rem;
+    }
+
+    .cardTitle > span {
+        width: 36px;
+        height: 8px;
+        margin-top: 0.3rem;
+    }
+
+    .cardDetails {
+        gap: 0.55rem;
+        margin-top: 0.7rem;
+    }
+
+    .cardDetails dt,
+    .cardDetails dd {
+        font-size: 0.55rem;
+        line-height: 1.2;
+    }
+
+    .careerMascote {
+        width: 48px;
+    }
+
+    .careerMascoteLeft {
+        left: -1.5rem;
+    }
+
+    .careerMascoteRight {
+        right: -1.5rem;
+    }
+
+    .careerMascoteRight img {
+        width: 48px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .heroImage,
+    .nuvensFrente {
+        transform: none;
+    }
+
+    .nuvensFundo {
+        transform: scaleX(-1);
+    }
+}
