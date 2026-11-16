@@ -1,0 +1,345 @@
+.hero,
+.main,
+.footer {
+    --escuro: #01151a;
+    --fundo: #C4F6DF;
+    --card: #d9f3d0;
+    --borda: #c7dfbf;
+    --titulo: #4a7d5c;
+    --subtitulo: #8dbb86;
+    --verde: #3fcf4f;
+    --rodape: #97bc8b;
+}
+
+/* ===== Hero ===== */
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: clamp(460px, 52vw, 760px);
+    background-color: var(--escuro);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.hero::after {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: clamp(10rem, 22vw, 20rem);
+    background: linear-gradient(
+        180deg,
+        rgba(196, 246, 223, 0) 0%,
+        rgba(196, 246, 223, 0.18) 45%,
+        var(--fundo) 100%
+    );
+    content: '';
+    pointer-events: none;
+}
+
+.heroImage {
+    z-index: -1;
+    object-fit: cover;
+    object-position: center;
+    transform: translateY(calc(min(var(--scroll, 0), 900) * 0.3px));
+    will-change: transform;
+}
+
+.heroContent {
+    margin-top: 2.7rem;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 3rem;
+    pointer-events: none;
+    translate: 0 calc(min(var(--scroll, 0), 900) * 0.25px);
+    opacity: calc(1 - var(--scroll, 0) / 500);
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0;
+    padding: 0 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 18px rgba(1, 21, 26, 0.45);
+}
+
+.heroEyebrow {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b9f3b4;
+}
+
+.brand h1 {
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.brand p {
+    max-width: 540px;
+    font-size: clamp(1rem, 1.7vw, 1.25rem);
+    line-height: 1.5;
+    color: #e6fbdf;
+}
+
+/* ===== Conteúdo ===== */
+.main {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6rem;
+
+    padding: 0 2rem 8rem;
+    background-color: var(--fundo);
+}
+
+.section {
+    margin-top: 3rem;
+    position: relative;
+    width: 100%;
+    max-width: 1080px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.sectionHeader {
+    max-width: 660px;
+    text-align: center;
+}
+
+.sectionHeader h2 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--titulo);
+}
+
+.sectionHeader p {
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+    color: var(--subtitulo);
+}
+
+/* ===== Busca ===== */
+.search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: min(420px, 100%);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    background-color: #fff;
+    border: 1px solid var(--borda);
+    color: var(--subtitulo);
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.search form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.search:focus-within {
+    border-color: var(--verde);
+    box-shadow: 0 0 0 3px rgba(63, 207, 79, 0.25);
+}
+
+.search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--titulo);
+    font-size: 1rem;
+}
+
+.search input::placeholder {
+    color: var(--subtitulo);
+}
+
+.rotuloArea {
+    display: flex;
+    justify-content: center;
+    min-height: 2.5rem;
+    margin-bottom: -1rem;
+}
+
+.rotulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background-color: var(--card);
+    border: 1px solid var(--borda);
+    font-weight: 700;
+    color: var(--titulo);
+}
+
+.rotulo svg {
+    color: var(--verde);
+}
+
+.semResultados {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--subtitulo);
+}
+
+/* ===== Grade de cards (o visual de cada card está em components/CardNoticia.module.css) ===== */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    width: 100%;
+}
+
+/* ===== Mascote ===== */
+.mascote {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+        opacity 0.6s ease,
+        translate 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+        rotate 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mascote img {
+    display: block;
+    width: 100%;
+    height: auto;
+    animation: flutuar 3s ease-in-out infinite;
+}
+
+.mascote[data-visivel="true"] {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+}
+
+.mascoteDireita {
+    width: 220px;
+    top: 0;
+    right: -6rem;
+    translate: 140px 60px;
+    rotate: 18deg;
+}
+
+@keyframes flutuar {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ===== Rodapé ===== */
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 180px;
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--rodape);
+    color: #fff;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 1250px) {
+    .mascoteDireita {
+        right: -1rem;
+        width: 160px;
+    }
+}
+
+@media (max-width: 900px) {
+    .cards {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        gap: 1.5rem;
+    }
+
+    .mascote {
+        display: none;
+    }
+
+    .brand {
+        margin-top: 2rem;
+    }
+
+    .sectionHeader h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: clamp(420px, 118vw, 540px);
+    }
+
+    .desktopBreak {
+        display: none;
+    }
+
+    .main {
+        padding: 0 1.1rem 5rem;
+    }
+}
+
+/* ===== Entrada da hero (GSAP): começa escondida pra não "piscar" ===== */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+    .heroContent [data-hero] {
+        visibility: hidden;
+    }
+}
+
+/* ===== Acessibilidade ===== */
+@media (prefers-reduced-motion: reduce) {
+    .heroImage {
+        transform: none;
+    }
+
+    .heroContent {
+        translate: none;
+        opacity: 1;
+    }
+
+    .mascote {
+        opacity: 1;
+        translate: none;
+        rotate: none;
+        transition: none;
+    }
+
+    .mascote img {
+        animation: none;
+    }
+}
