@@ -20,6 +20,7 @@ import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import CardNoticia from '@/components/CardNoticia';
+import Navbar from '@/components/Navbar';
 import ScrollEffects from '@/components/ScrollEffects';
 import styles from './noticias.module.css';
 
@@ -191,6 +192,7 @@ export default function NoticiasPage() {
                 <ScrollEffects />
 
                 <header className={styles.hero}>
+                    <Navbar />
                     <Image
                         src="/images/noticias-hero.png"
                         alt=""
