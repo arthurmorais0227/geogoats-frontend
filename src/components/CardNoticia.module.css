@@ -1,0 +1,147 @@
+/* div de fora: entrada/saída e o deslize da busca (Motion) */
+.cardWrap {
+    display: flex;
+    --fundo: #e6fbdf;
+    --card: #d9f3d0;
+    --borda: #c7dfbf;
+    --titulo: #4a7d5c;
+    --verde: #3fcf4f;
+}
+
+.card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 450px;
+    background-color: var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--titulo);
+    outline: none;
+}
+
+.card:focus-visible {
+    border-color: var(--verde);
+}
+
+/* ===== Arte do topo ===== */
+.artwork {
+    position: relative;
+    display: grid;
+    min-height: 170px;
+    place-items: center;
+    overflow: hidden;
+    background: linear-gradient(145deg, #a5e8ad 0%, #72d6a5 100%);
+}
+
+.sol {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.4rem;
+    width: 38px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #fff3a0;
+    opacity: 0.9;
+}
+
+.morro,
+.morroFundo {
+    position: absolute;
+    right: -10%;
+    bottom: -44%;
+    left: -10%;
+    height: 85%;
+    border-radius: 50% 50% 0 0;
+    background: rgba(63, 185, 122, 0.58);
+    rotate: -8deg;
+}
+
+.morroFundo {
+    right: 30%;
+    bottom: -58%;
+    left: -35%;
+    height: 90%;
+    background: rgba(36, 152, 116, 0.48);
+    rotate: 12deg;
+}
+
+.icone {
+    z-index: 1;
+    width: 54px;
+    height: 54px;
+    color: #eaffd9;
+    filter: drop-shadow(0 3px 4px rgba(22, 94, 72, 0.18));
+}
+
+.numero {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.25rem;
+    color: rgba(234, 255, 217, 0.85);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+/* ===== Texto ===== */
+.conteudo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.5rem;
+}
+
+.categoria {
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background-color: var(--fundo);
+    color: #40895d;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.conteudo h3 {
+    font-size: 1.4rem;
+    line-height: 1.25;
+}
+
+.conteudo p {
+    flex: 1;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #6f9a74;
+}
+
+.link {
+    font-weight: 600;
+    color: var(--verde);
+}
+
+/* transform não funciona em elemento inline, então a seta vira inline-block */
+.link span {
+    display: inline-block;
+    transition: translate 0.3s ease;
+}
+
+.card:hover .link span {
+    translate: 6px 0;
+}
+
+@media (max-width: 900px) {
+    .card {
+        min-height: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .link span {
+        transition: none;
+    }
+}
