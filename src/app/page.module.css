@@ -1,4 +1,3 @@
-
 .hero,
 .main,
 .footer {
@@ -115,6 +114,26 @@
     color: #b7c4c6;
 }
 
+.dicaBusca {
+    height: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.dicaBusca button {
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.9rem;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--verde);
+    color: var(--escuro);
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
 .brand {
     display: flex;
     flex-direction: column;
@@ -124,8 +143,13 @@
     text-align: center;
 }
 
-.logo {
+.logoWrap {
     width: 96px;
+}
+
+.logo {
+    display: block;
+    width: 100%;
     height: auto;
     filter: drop-shadow(0 0 18px rgba(63, 207, 79, 0.35));
     animation: flutuar 4s ease-in-out infinite;
@@ -206,14 +230,18 @@
     border-radius: 20px;
     text-decoration: none;
     color: var(--titulo);
-    transition:
-        transform 0.4s ease,
-        box-shadow 0.4s ease;
+    /* hover/foco animados pelo Motion (CardConteudo.jsx) */
+    flex: 1;
+    outline: none;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(74, 125, 92, 0.18);
+.card:focus-visible {
+    border-color: var(--verde);
+}
+
+/* div de fora do card: entrada/saída e o deslize da busca (Motion) */
+.cardWrap {
+    display: flex;
 }
 
 .cardIcon {
@@ -240,6 +268,47 @@
 .cardLink {
     font-weight: 600;
     color: var(--verde);
+}
+
+/* transform não funciona em elemento inline, então a seta vira inline-block */
+.cardLink span {
+    display: inline-block;
+}
+
+/* ===== Em alta ⇄ resultados da busca ===== */
+.secaoBusca {
+    scroll-margin-top: 2rem;
+}
+
+.rotuloArea {
+    display: flex;
+    justify-content: center;
+    min-height: 2.5rem;
+    margin-bottom: -1rem;
+}
+
+.rotulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background-color: var(--card);
+    border: 1px solid var(--borda);
+    font-weight: 700;
+    color: var(--titulo);
+}
+
+.rotulo svg {
+    color: var(--verde);
+}
+
+.semResultados {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--subtitulo);
 }
 
 /* ===== Mascotes ===== */
@@ -347,6 +416,15 @@
 
     .sectionHeader h2 {
         font-size: 2rem;
+    }
+}
+
+/* ===== Entrada da hero (GSAP) =====
+   Começa escondida para não aparecer e "piscar" antes do JS animar.
+   Sem JS ou com menos movimento, essa regra não vale e tudo aparece normal. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+    .heroContent [data-hero] {
+        visibility: hidden;
     }
 }
 

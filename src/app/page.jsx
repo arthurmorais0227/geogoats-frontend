@@ -1,23 +1,39 @@
+'use client';
+
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import {
     Compass,
     Earth,
+    Flame,
     Globe,
-    Map,
+    Map as MapIcon,
     Mountain,
     Search,
+    SearchX,
     Users,
 } from 'lucide-react';
+import {
+    AnimatePresence,
+    MotionConfig,
+    motion,
+    useReducedMotion,
+} from 'motion/react';
 import { Dosis } from 'next/font/google';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRef, useState } from 'react';
+import CardConteudo from '@/components/CardConteudo';
 import ScrollEffects from '@/components/ScrollEffects';
 import styles from './page.module.css';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
 
 const caminhos = [
     {
-        id: 1,
         titulo: 'Geografia Física',
         descricao:
             'Relevo, clima, hidrografia e vegetação: como a natureza molda o planeta.',
@@ -25,7 +41,6 @@ const caminhos = [
         Icon: Mountain,
     },
     {
-        id: 2,
         titulo: 'Geografia Humana',
         descricao:
             'População, cidades, economia e cultura: como a sociedade ocupa o espaço.',
@@ -33,18 +48,16 @@ const caminhos = [
         Icon: Users,
     },
     {
-        id: 3,
         titulo: 'Cartografia',
         descricao:
             'Mapas, escalas e projeções: como representamos o espaço geográfico.',
         href: '/cartografia',
-        Icon: Map,
+        Icon: MapIcon,
     },
 ];
 
-const destaques = [
+const emAlta = [
     {
-        id: 1,
         titulo: 'O que é Geografia?',
         descricao:
             'Entenda o objeto de estudo da Geografia e seus principais conceitos.',
@@ -52,7 +65,6 @@ const destaques = [
         Icon: Globe,
     },
     {
-        id: 2,
         titulo: 'Orientação e Coordenadas',
         descricao:
             'Pontos cardeais, latitude e longitude para se localizar no mundo.',
@@ -60,7 +72,6 @@ const destaques = [
         Icon: Compass,
     },
     {
-        id: 3,
         titulo: 'A Terra no Universo',
         descricao:
             'Movimentos de rotação e translação, estações do ano e fusos horários.',
@@ -68,6 +79,23 @@ const destaques = [
         Icon: Earth,
     },
 ];
+
+const todos = [...caminhos, ...emAlta];
+
+// "Cartográfia" e "cartografia" batem igual: ignora acentos e maiúsculas
+const normalizar = (texto) =>
+    texto
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase();
+
+function buscarConteudos(termo) {
+    const busca = normalizar(termo.trim());
+    if (!busca) return [];
+    return todos.filter(({ titulo, descricao }) =>
+        normalizar(`${titulo} ${descricao}`).includes(busca),
+    );
+}
 
 // Contorno das nuvens (2880 de largura): sobe nas laterais e desce no meio, onde fica o mascote
 const contornoNuvem =
@@ -88,129 +116,318 @@ function CamadaNuvens({ className }) {
     );
 }
 
-function Card({ titulo, descricao, href, Icon }) {
-    return (
-        <Link href={href} className={styles.card}>
-            <span className={styles.cardIcon}>
-                <Icon size={32} />
-            </span>
-            <h3>{titulo}</h3>
-            <p>{descricao}</p>
-            <span className={styles.cardLink}>Saiba mais →</span>
-        </Link>
-    );
-}
+// Troca suave do rótulo e do texto curto (Motion)
+const troca = {
+    initial: { opacity: 0, y: 10, filter: 'blur(4px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: -10, filter: 'blur(4px)' },
+    transition: { duration: 0.25 },
+};
 
 export default function Page() {
+    const raizRef = useRef(null);
+    const secaoBuscaRef = useRef(null);
+    const reduzirMovimento = useReducedMotion();
+    const [termo, setTermo] = useState('');
+
+    const buscando = termo.trim() !== '';
+    const resultados = buscando ? buscarConteudos(termo) : emAlta;
+
+    // ===== GSAP: entrada da hero + textos revelados letra a letra no scroll =====
+    useGSAP(
+        () => {
+            const mm = gsap.matchMedia();
+
+            // Quem prefere menos movimento não vê nada disso (o CSS já mostra tudo)
+            mm.add('(prefers-reduced-motion: no-preference)', () => {
+                // --- Entrada da hero ---
+                // words + chars: as letras animam, mas a palavra nunca quebra no meio
+                const titulo = SplitText.create('[data-hero="titulo"]', {
+                    type: 'words,chars',
+                    mask: 'chars',
+                });
+                const frase = SplitText.create('[data-hero="frase"]', {
+                    type: 'words',
+                    mask: 'words',
+                });
+
+                // os elementos começam escondidos pelo CSS (evita "piscar" antes do JS)
+                gsap.set('[data-hero="titulo"], [data-hero="frase"]', {
+                    autoAlpha: 1,
+                });
+
+                gsap.timeline({ defaults: { ease: 'power3.out' } })
+                    .fromTo(
+                        '[data-hero="busca"]',
+                        { autoAlpha: 0, y: -24 },
+                        { autoAlpha: 1, y: 0, duration: 0.6 },
+                    )
+                    .fromTo(
+                        '[data-hero="logo"]',
+                        { autoAlpha: 0, scale: 0.4, rotate: -25 },
+                        {
+                            autoAlpha: 1,
+                            scale: 1,
+                            rotate: 0,
+                            duration: 0.9,
+                            ease: 'back.out(1.8)',
+                        },
+                        '<0.1',
+                    )
+                    .from(
+                        titulo.chars,
+                        {
+                            yPercent: 110,
+                            rotate: 8,
+                            duration: 0.8,
+                            stagger: 0.05,
+                        },
+                        '-=0.55',
+                    )
+                    .from(
+                        frase.words,
+                        { yPercent: 100, duration: 0.6, stagger: 0.025 },
+                        '-=0.45',
+                    );
+
+                // --- Textos que se revelam conforme rola (scrub = segue a barra de rolagem) ---
+                for (const el of gsap.utils.toArray('[data-revelar-texto]')) {
+                    const porLetra = el.dataset.revelarTexto === 'letras';
+                    const split = SplitText.create(el, {
+                        type: porLetra ? 'words,chars' : 'words',
+                    });
+
+                    gsap.from(porLetra ? split.chars : split.words, {
+                        opacity: 0.12,
+                        y: porLetra ? 18 : 0,
+                        stagger: porLetra ? 0.04 : 0.03,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 88%',
+                            end: porLetra ? 'top 55%' : 'top 60%',
+                            scrub: 0.6,
+                        },
+                    });
+                }
+            });
+        },
+        { scope: raizRef },
+    );
+
+    function enviarBusca(evento) {
+        evento.preventDefault();
+        secaoBuscaRef.current?.scrollIntoView({
+            behavior: reduzirMovimento ? 'auto' : 'smooth',
+            block: 'start',
+        });
+    }
+
     return (
-        <>
-            <ScrollEffects />
+        <MotionConfig reducedMotion="user">
+            <div ref={raizRef}>
+                <ScrollEffects />
 
-            <header className={styles.hero}>
-                <Image
-                    src="/images/hero.webp"
-                    alt=""
-                    width={2560}
-                    height={1441}
-                    priority
-                    unoptimized
-                    className={styles.heroImage}
-                />
+                <header className={styles.hero}>
+                    <Image
+                        src="/images/hero.webp"
+                        alt=""
+                        width={2560}
+                        height={1441}
+                        priority
+                        unoptimized
+                        className={styles.heroImage}
+                    />
 
-                <div className={styles.heroContent}>
-                    <form className={styles.search} role="search">
-                        <Search size={18} />
-                        <input
-                            type="search"
-                            placeholder="Pesquisar conteúdos..."
-                            aria-label="Pesquisar"
-                        />
-                    </form>
+                    <div className={styles.heroContent}>
+                        <form
+                            data-hero="busca"
+                            className={styles.search}
+                            role="search"
+                            onSubmit={enviarBusca}
+                        >
+                            <Search size={18} />
+                            <input
+                                type="search"
+                                placeholder="Pesquisar conteúdos..."
+                                aria-label="Pesquisar"
+                                value={termo}
+                                onChange={(e) => setTermo(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Escape') setTermo('');
+                                }}
+                            />
+                        </form>
 
-                    <div className={styles.brand}>
-                        <Image
-                            src="/images/logo.png"
-                            alt="Logo GeoGoats"
-                            width={572}
-                            height={572}
-                            priority
-                            className={styles.logo}
-                        />
-                        <h1 className={dosis.className}>GEOGOATS</h1>
-                        <p>
-                            Fique conectado com as notícias mais recentes da
-                            geografia.
-                        </p>
+                        {/* dica que aparece embaixo da busca enquanto digita */}
+                        <div className={styles.dicaBusca} aria-live="polite">
+                            <AnimatePresence>
+                                {buscando && (
+                                    <motion.button
+                                        type="button"
+                                        onClick={enviarBusca}
+                                        initial={{
+                                            opacity: 0,
+                                            y: -8,
+                                            scale: 0.9,
+                                        }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -8, scale: 0.9 }}
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        {resultados.length === 1
+                                            ? '1 resultado'
+                                            : `${resultados.length} resultados`}{' '}
+                                        · Enter para ver
+                                    </motion.button>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        <div className={styles.brand}>
+                            <div data-hero="logo" className={styles.logoWrap}>
+                                <Image
+                                    src="/images/logo.png"
+                                    alt="Logo GeoGoats"
+                                    width={572}
+                                    height={572}
+                                    priority
+                                    className={styles.logo}
+                                />
+                            </div>
+                            <h1 data-hero="titulo" className={dosis.className}>
+                                GEOGOATS
+                            </h1>
+                            <p data-hero="frase">
+                                Fique conectado com as notícias mais recentes da
+                                geografia.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <CamadaNuvens className={styles.nuvensFundo} />
-                <CamadaNuvens className={styles.nuvensFrente} />
-            </header>
+                    <CamadaNuvens className={styles.nuvensFundo} />
+                    <CamadaNuvens className={styles.nuvensFrente} />
+                </header>
 
-            <main className={styles.main}>
-                <section className={styles.section}>
-                    <div className={styles.sectionHeader}>
-                        <h2>Por Onde Começar?</h2>
-                        <p>
-                            Três caminhos complementares para entender a Terra:
-                            a natureza, a sociedade e a forma como representamos
-                            o espaço.
-                        </p>
-                    </div>
+                <main className={styles.main}>
+                    <section className={styles.section}>
+                        <div className={styles.sectionHeader}>
+                            <h2 data-revelar-texto="letras">
+                                Por Onde Começar?
+                            </h2>
+                            <p data-revelar-texto="palavras">
+                                Três caminhos complementares para entender a
+                                Terra: a natureza, a sociedade e a forma como
+                                representamos o espaço.
+                            </p>
+                        </div>
 
-                    <div
-                        data-revelar
-                        className={`${styles.mascote} ${styles.mascoteDireita}`}
+                        <div
+                            data-revelar
+                            className={`${styles.mascote} ${styles.mascoteDireita}`}
+                        >
+                            <Image
+                                src="/images/mascote-feliz.png"
+                                alt="Mascote GeoGoats comemorando"
+                                width={700}
+                                height={745}
+                            />
+                        </div>
+
+                        <div className={styles.cards}>
+                            {caminhos.map((card, indice) => (
+                                <CardConteudo
+                                    key={card.href}
+                                    indice={indice}
+                                    {...card}
+                                />
+                            ))}
+                        </div>
+                    </section>
+
+                    <section
+                        ref={secaoBuscaRef}
+                        className={`${styles.section} ${styles.secaoBusca}`}
                     >
-                        <Image
-                            src="/images/mascote-feliz.png"
-                            alt="Mascote GeoGoats comemorando"
-                            width={700}
-                            height={745}
-                        />
-                    </div>
+                        <div className={styles.sectionHeader}>
+                            <h2 data-revelar-texto="letras">
+                                Conteúdos em Destaque
+                            </h2>
+                            <p data-revelar-texto="palavras">
+                                Temas introdutórios que servem de base para o
+                                restante dos estudos.
+                            </p>
+                        </div>
 
-                    <div className={styles.cards}>
-                        {caminhos.map(({ id, ...card }) => (
-                            <Card key={id} {...card} />
-                        ))}
-                    </div>
-                </section>
+                        <div
+                            data-revelar
+                            className={`${styles.mascote} ${styles.mascoteEsquerda}`}
+                        >
+                            <Image
+                                src="/images/mascote-coracao.png"
+                                alt="Mascote GeoGoats apaixonado"
+                                width={766}
+                                height={766}
+                            />
+                        </div>
 
-                <section className={styles.section}>
-                    <div className={styles.sectionHeader}>
-                        <h2>Conteúdos em Destaque</h2>
-                        <p>
-                            Temas introdutórios que servem de base para o
-                            restante dos estudos.
-                        </p>
-                    </div>
+                        {/* rótulo "Em alta" ⇄ "Resultados para ..." */}
+                        <div className={styles.rotuloArea} aria-live="polite">
+                            <AnimatePresence mode="wait" initial={false}>
+                                <motion.span
+                                    key={buscando ? 'busca' : 'alta'}
+                                    className={styles.rotulo}
+                                    {...troca}
+                                >
+                                    {buscando ? (
+                                        <>
+                                            <Search size={16} />
+                                            Resultados para “{termo.trim()}”
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Flame size={16} />
+                                            Em alta
+                                        </>
+                                    )}
+                                </motion.span>
+                            </AnimatePresence>
+                        </div>
 
-                    <div
-                        data-revelar
-                        className={`${styles.mascote} ${styles.mascoteEsquerda}`}
-                    >
-                        <Image
-                            src="/images/mascote-coracao.png"
-                            alt="Mascote GeoGoats apaixonado"
-                            width={766}
-                            height={766}
-                        />
-                    </div>
+                        {/* layout: os cards que ficam deslizam para o novo lugar;
+                            popLayout: os que saem não empurram o resto enquanto somem */}
+                        <motion.div layout className={styles.cards}>
+                            <AnimatePresence mode="popLayout">
+                                {resultados.map((card, indice) => (
+                                    <CardConteudo
+                                        key={card.href}
+                                        indice={indice}
+                                        {...card}
+                                    />
+                                ))}
+                            </AnimatePresence>
+                        </motion.div>
 
-                    <div className={styles.cards}>
-                        {destaques.map(({ id, ...card }) => (
-                            <Card key={id} {...card} />
-                        ))}
-                    </div>
-                </section>
-            </main>
+                        <AnimatePresence>
+                            {resultados.length === 0 && (
+                                <motion.p
+                                    className={styles.semResultados}
+                                    {...troca}
+                                >
+                                    <SearchX size={20} />
+                                    Nada encontrado. Tente outro termo.
+                                </motion.p>
+                            )}
+                        </AnimatePresence>
+                    </section>
+                </main>
 
-            <footer className={styles.footer}>
-                <p>GeoGoats &copy; {new Date().getFullYear()}</p>
-                <p>Next.js - React - Lucide</p>
-            </footer>
-        </>
+                <footer className={styles.footer}>
+                    <p>GeoGoats &copy; {new Date().getFullYear()}</p>
+                    <p>Next.js - React - Lucide - GSAP - Motion</p>
+                </footer>
+            </div>
+        </MotionConfig>
     );
 }
