@@ -7,13 +7,12 @@ import {
     Mountain,
     Users,
 } from 'lucide-react';
-import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
+import TituloAnimado from '@/components/TituloAnimado';
 import ScrollEffects from '@/components/ScrollEffects';
+import { climateCrisis } from '../fonts';
 import styles from './materias.module.css';
-
-const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
 
 export const metadata = {
     title: 'Matérias de Geografia | GeoGoats',
@@ -97,12 +96,24 @@ export default function MateriasPage() {
                     className={styles.heroImage}
                 />
                 <div className={styles.heroContent}>
-                    <span className={styles.heroEyebrow}>Explore e aprenda</span>
-                    <h1 className={dosis.className}>Matérias de Geografia</h1>
+                    <TituloAnimado className={climateCrisis.className}>
+                        MATÉRIAS
+                    </TituloAnimado>
                 </div>
             </header>
 
             <main className={styles.main}>
+                <svg
+                    className={styles.agua}
+                    viewBox="0 0 1440 200"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                >
+                    <path fill="#77ebc8" d="M0 0Q720 190 1440 0V200H0Z" />
+                    <path fill="#acf4d9" d="M0 4Q720 266 1440 4V200H0Z" />
+                    <path fill="#d6fad9" d="M0 7Q720 329 1440 7V200H0Z" />
+                    <path style={{ fill: 'var(--fundo)' }} d="M0 10Q720 386 1440 10V200H0Z" />
+                </svg>
                 <section
                     className={styles.section}
                     aria-labelledby="materias-title"
@@ -111,8 +122,10 @@ export default function MateriasPage() {
                         <span className={styles.sectionEyebrow}>
                             Conhecimento em cada caminho
                         </span>
-                        <h2 id="materias-title">O que você quer explorar?</h2>
-                        <p>
+                        <h2 id="materias-title" data-revelar-texto="letras">
+                            O que você quer explorar?
+                        </h2>
+                        <p data-revelar-texto="palavras">
                             Navegue pelas principais áreas e encontre os
                             assuntos que conectam natureza, sociedade e espaço.
                         </p>

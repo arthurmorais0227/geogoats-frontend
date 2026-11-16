@@ -2,7 +2,6 @@
 
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import {
     Compass,
@@ -16,17 +15,15 @@ import {
     Waves,
 } from 'lucide-react';
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
-import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import CardNoticia from '@/components/CardNoticia';
 import Navbar from '@/components/Navbar';
 import ScrollEffects from '@/components/ScrollEffects';
+import { climateCrisis } from '../fonts';
 import styles from './noticias.module.css';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
-
-const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
+gsap.registerPlugin(useGSAP, SplitText);
 
 const noticias = [
     {
@@ -115,7 +112,7 @@ export default function NoticiasPage() {
     const buscando = termo.trim() !== '';
     const resultados = buscando ? buscarNoticias(termo) : noticias;
 
-    // ===== GSAP: entrada da hero + textos revelados no scroll =====
+    // ===== GSAP: entrada da hero =====
     useGSAP(
         () => {
             const mm = gsap.matchMedia();
@@ -155,26 +152,7 @@ export default function NoticiasPage() {
                         { autoAlpha: 1, y: 0, duration: 0.7 },
                         '-=0.35',
                     );
-
-                for (const el of gsap.utils.toArray('[data-revelar-texto]')) {
-                    const porLetra = el.dataset.revelarTexto === 'letras';
-                    const split = SplitText.create(el, {
-                        type: porLetra ? 'words,chars' : 'words',
-                    });
-
-                    gsap.from(porLetra ? split.chars : split.words, {
-                        opacity: 0.12,
-                        y: porLetra ? 18 : 0,
-                        stagger: porLetra ? 0.04 : 0.03,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: el,
-                            start: 'top 88%',
-                            end: porLetra ? 'top 55%' : 'top 60%',
-                            scrub: 0.6,
-                        },
-                    });
-                }
+                // os textos revelados no scroll ficam no ScrollEffects
             });
         },
         { scope: raizRef },
@@ -211,7 +189,7 @@ export default function NoticiasPage() {
                             >
                                 GeoGoats • Atualidades
                             </span>
-                            <h1 data-hero="titulo" className={dosis.className}>
+                            <h1 data-hero="titulo" className={climateCrisis.className}>
                                 NOTÍCIAS
                             </h1>
                         </div>

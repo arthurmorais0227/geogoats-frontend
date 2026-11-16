@@ -5,6 +5,9 @@ import { Toaster } from 'react-hot-toast';
 export const metadata = {
     title: 'FrontEnd - Codeverse',
     description: 'Template do Codeverse',
+    icons: {
+        icon: '/images/icon.png',
+    },
 };
 
 export default function RootLayout({ children }) {
