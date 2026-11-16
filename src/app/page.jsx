@@ -118,14 +118,6 @@ export default function Page() {
                 />
 
                 <div className={styles.heroContent}>
-                    <form className={styles.search} role="search">
-                        <Search size={18} />
-                        <input
-                            type="search"
-                            placeholder="Pesquisar conteúdos..."
-                            aria-label="Pesquisar"
-                        />
-                    </form>
 
                     <div className={styles.brand}>
                         <Image
@@ -137,10 +129,6 @@ export default function Page() {
                             className={styles.logo}
                         />
                         <h1 className={dosis.className}>GEOGOATS</h1>
-                        <p>
-                            Fique conectado com as notícias mais recentes da
-                            geografia.
-                        </p>
                     </div>
                 </div>
 
