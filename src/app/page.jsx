@@ -20,6 +20,7 @@ import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import CardConteudo from '@/components/CardConteudo';
+import Navbar from '@/components/Navbar';
 import ScrollEffects from '@/components/ScrollEffects';
 import styles from './page.module.css';
 
@@ -199,6 +200,7 @@ export default function Page() {
                 <ScrollEffects />
 
                 <header className={styles.hero}>
+                    <Navbar />
                     <Image
                         src="/images/hero.webp"
                         alt=""
