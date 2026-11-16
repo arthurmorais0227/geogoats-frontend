@@ -15,12 +15,7 @@ import {
     SearchX,
     Users,
 } from 'lucide-react';
-import {
-    AnimatePresence,
-    MotionConfig,
-    motion,
-    useReducedMotion,
-} from 'motion/react';
+import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -126,8 +121,6 @@ const troca = {
 
 export default function Page() {
     const raizRef = useRef(null);
-    const secaoBuscaRef = useRef(null);
-    const reduzirMovimento = useReducedMotion();
     const [termo, setTermo] = useState('');
 
     const buscando = termo.trim() !== '';
@@ -146,22 +139,13 @@ export default function Page() {
                     type: 'words,chars',
                     mask: 'chars',
                 });
-                const frase = SplitText.create('[data-hero="frase"]', {
-                    type: 'words',
-                    mask: 'words',
-                });
 
                 // os elementos começam escondidos pelo CSS (evita "piscar" antes do JS)
-                gsap.set('[data-hero="titulo"], [data-hero="frase"]', {
+                gsap.set('[data-hero="titulo"]', {
                     autoAlpha: 1,
                 });
 
                 gsap.timeline({ defaults: { ease: 'power3.out' } })
-                    .fromTo(
-                        '[data-hero="busca"]',
-                        { autoAlpha: 0, y: -24 },
-                        { autoAlpha: 1, y: 0, duration: 0.6 },
-                    )
                     .fromTo(
                         '[data-hero="logo"]',
                         { autoAlpha: 0, scale: 0.4, rotate: -25 },
@@ -172,7 +156,6 @@ export default function Page() {
                             duration: 0.9,
                             ease: 'back.out(1.8)',
                         },
-                        '<0.1',
                     )
                     .from(
                         titulo.chars,
@@ -183,11 +166,6 @@ export default function Page() {
                             stagger: 0.05,
                         },
                         '-=0.55',
-                    )
-                    .from(
-                        frase.words,
-                        { yPercent: 100, duration: 0.6, stagger: 0.025 },
-                        '-=0.45',
                     );
 
                 // --- Textos que se revelam conforme rola (scrub = segue a barra de rolagem) ---
@@ -215,14 +193,6 @@ export default function Page() {
         { scope: raizRef },
     );
 
-    function enviarBusca(evento) {
-        evento.preventDefault();
-        secaoBuscaRef.current?.scrollIntoView({
-            behavior: reduzirMovimento ? 'auto' : 'smooth',
-            block: 'start',
-        });
-    }
-
     return (
         <MotionConfig reducedMotion="user">
             <div ref={raizRef}>
@@ -240,51 +210,6 @@ export default function Page() {
                     />
 
                     <div className={styles.heroContent}>
-                        <form
-                            data-hero="busca"
-                            className={styles.search}
-                            role="search"
-                            onSubmit={enviarBusca}
-                        >
-                            <Search size={18} />
-                            <input
-                                type="search"
-                                placeholder="Pesquisar conteúdos..."
-                                aria-label="Pesquisar"
-                                value={termo}
-                                onChange={(e) => setTermo(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Escape') setTermo('');
-                                }}
-                            />
-                        </form>
-
-                        {/* dica que aparece embaixo da busca enquanto digita */}
-                        <div className={styles.dicaBusca} aria-live="polite">
-                            <AnimatePresence>
-                                {buscando && (
-                                    <motion.button
-                                        type="button"
-                                        onClick={enviarBusca}
-                                        initial={{
-                                            opacity: 0,
-                                            y: -8,
-                                            scale: 0.9,
-                                        }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: -8, scale: 0.9 }}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        {resultados.length === 1
-                                            ? '1 resultado'
-                                            : `${resultados.length} resultados`}{' '}
-                                        · Enter para ver
-                                    </motion.button>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
                         <div className={styles.brand}>
                             <div data-hero="logo" className={styles.logoWrap}>
                                 <Image
@@ -299,10 +224,6 @@ export default function Page() {
                             <h1 data-hero="titulo" className={dosis.className}>
                                 GEOGOATS
                             </h1>
-                            <p data-hero="frase">
-                                Fique conectado com as notícias mais recentes da
-                                geografia.
-                            </p>
                         </div>
                     </div>
 
@@ -346,10 +267,7 @@ export default function Page() {
                         </div>
                     </section>
 
-                    <section
-                        ref={secaoBuscaRef}
-                        className={`${styles.section} ${styles.secaoBusca}`}
-                    >
+                    <section className={styles.section}>
                         <div className={styles.sectionHeader}>
                             <h2 data-revelar-texto="letras">
                                 Conteúdos em Destaque
@@ -371,6 +289,24 @@ export default function Page() {
                                 height={766}
                             />
                         </div>
+
+                        <form
+                            className={styles.search}
+                            role="search"
+                            onSubmit={(e) => e.preventDefault()}
+                        >
+                            <Search size={18} />
+                            <input
+                                type="search"
+                                placeholder="Pesquisar conteúdos..."
+                                aria-label="Pesquisar"
+                                value={termo}
+                                onChange={(e) => setTermo(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Escape') setTermo('');
+                                }}
+                            />
+                        </form>
 
                         {/* rótulo "Em alta" ⇄ "Resultados para ..." */}
                         <div className={styles.rotuloArea} aria-live="polite">

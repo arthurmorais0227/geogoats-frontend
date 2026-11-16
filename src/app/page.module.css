@@ -80,60 +80,6 @@
     opacity: calc(1 - var(--scroll, 0) / 500);
 }
 
-.search {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: min(350px, 85%);
-    padding: 0.7rem 1.25rem;
-    border-radius: 999px;
-    background-color: rgba(62, 76, 80, 0.9);
-    border: 1px solid #6f7f82;
-    color: #b7c4c6;
-    pointer-events: auto;
-    transition:
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-}
-
-.search:focus-within {
-    border-color: var(--verde);
-    box-shadow: 0 0 0 3px rgba(63, 207, 79, 0.25);
-}
-
-.search input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #fff;
-    font-size: 0.95rem;
-}
-
-.search input::placeholder {
-    color: #b7c4c6;
-}
-
-.dicaBusca {
-    height: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.dicaBusca button {
-    margin-top: 0.6rem;
-    padding: 0.3rem 0.9rem;
-    border: none;
-    border-radius: 999px;
-    background-color: var(--verde);
-    color: var(--escuro);
-    font-size: 0.85rem;
-    font-weight: 700;
-    white-space: nowrap;
-    cursor: pointer;
-    pointer-events: auto;
-}
-
 .brand {
     display: flex;
     flex-direction: column;
@@ -276,10 +222,38 @@
 }
 
 /* ===== Em alta ⇄ resultados da busca ===== */
-.secaoBusca {
-    scroll-margin-top: 2rem;
+.search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: min(420px, 100%);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    background-color: #fff;
+    border: 1px solid var(--borda);
+    color: var(--subtitulo);
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
+.search:focus-within {
+    border-color: var(--verde);
+    box-shadow: 0 0 0 3px rgba(63, 207, 79, 0.25);
+}
+
+.search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--titulo);
+    font-size: 1rem;
+}
+
+.search input::placeholder {
+    color: var(--subtitulo);
+}
 .rotuloArea {
     display: flex;
     justify-content: center;
