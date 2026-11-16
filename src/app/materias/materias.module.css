@@ -36,20 +36,7 @@
         180deg,
         rgba(1, 21, 26, 0.42) 0%,
         rgba(1, 21, 26, 0.08) 45%,
-        rgba(1, 21, 26, 0.05) 72%,
-        rgba(1, 21, 26, 0.16) 100%
-    );
-}
-
-.hero::after {
-    z-index: 1;
-    bottom: 0;
-    height: clamp(10rem, 22vw, 20rem);
-    background: linear-gradient(
-        180deg,
-        rgba(230, 251, 223, 0) 0%,
-        rgba(230, 251, 223, 0.12) 48%,
-        var(--fundo) 100%
+        rgba(1, 21, 26, 0) 72%
     );
 }
 
@@ -90,9 +77,11 @@
 }
 
 .heroContent h1 {
-    font-size: clamp(2.5rem, 6vw, 4.7rem);
-    font-weight: 800;
-    line-height: 1.05;
+    font-size: clamp(3rem, 7vw, 5.2rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-shadow: none; /* sem sombra no título (a do .heroContent fica só no texto) */
 }
 
 .heroContent p {
@@ -107,6 +96,20 @@
     z-index: 1;
     padding: 0 2rem 7rem;
     background: var(--fundo);
+    /* altura da faixa de água da imagem que a curva cobre */
+    --agua: clamp(64px, 8vw, 115px);
+}
+
+/* Camadas de água curvadas (formato de "sorriso"), cores sólidas */
+.agua {
+    position: absolute;
+    top: calc(var(--agua) * -1);
+    left: 0;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: calc(var(--agua) * 5 / 3);
+    pointer-events: none;
 }
 
 .section {
@@ -115,6 +118,7 @@
 }
 
 .sectionHeader {
+    padding-top: 7rem;
     max-width: 700px;
     margin: 0 auto 2.5rem;
     text-align: center;

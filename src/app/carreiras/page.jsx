@@ -1,7 +1,10 @@
 import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import CardCarreira from '@/components/CardCarreira';
+import Navbar from '@/components/Navbar';
+import TituloAnimado from '@/components/TituloAnimado';
 import ScrollEffects from '@/components/ScrollEffects';
+import { climateCrisis } from '../fonts';
 import styles from './page.module.css';
 
 const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
@@ -80,29 +83,13 @@ const carreiras = [
     },
 ];
 
-const contornoNuvem =
-    'M0 760V130a63 63 0 1 1 100 52a101 101 0 0 1 170 109a56 56 0 1 1 95 30a123 123 0 0 1 220 108a66 66 0 1 1 115 24a96 96 0 0 1 180 67a59 59 0 1 1 105 7a123 123 0 0 1 240 51a67 67 0 1 1 120-8a48 48 0 0 1 95 18a57 57 0 1 1 100-18a85 85 0 0 1 170 2a56 56 0 1 1 95-29a111 111 0 0 1 220-29a70 70 0 1 1 115-48a93 93 0 0 1 180-46a67 67 0 1 1 105-59a130 130 0 0 1 240-99a82 82 0 1 1 120-83a53 53 0 0 1 95-49V760Z';
-
-function CamadaNuvens({ className }) {
-    return (
-        <div
-            className={`${styles.camadaNuvens} ${className}`}
-            aria-hidden="true"
-        >
-            <svg viewBox="0 0 2880 760" aria-hidden="true">
-                <path d={contornoNuvem} />
-            </svg>
-            <span />
-        </div>
-    );
-}
-
 export default function Page() {
     return (
         <>
             <ScrollEffects />
 
             <header className={styles.hero}>
+                <Navbar />
                 <Image
                     src="/images/carreiraFundo.png"
                     alt=""
@@ -112,13 +99,10 @@ export default function Page() {
                     className={styles.heroImage}
                 />
                 <div className={styles.heroContent}>
-                    <h1 data-hero="titulo" className={dosis.className}>
+                    <TituloAnimado className={climateCrisis.className}>
                         CARREIRAS
-                    </h1>
-                    <p>Descubra carreiras que envolvem geografia!</p>
+                    </TituloAnimado>
                 </div>
-                <CamadaNuvens className={styles.nuvensFundo} />
-                <CamadaNuvens className={styles.nuvensFrente} />
             </header>
 
             <main className={styles.main}>
@@ -137,10 +121,12 @@ export default function Page() {
                     </div>
 
                     <div className={styles.introText}>
-                        <h2 className={dosis.className}>
+                        <h2 className={dosis.className} data-revelar-texto="letras">
                             Profissões que usam Geografia
                         </h2>
-                        <p>Carreiras que envolvem a geografia!</p>
+                        <p data-revelar-texto="palavras">
+                            Carreiras que envolvem a geografia!
+                        </p>
                     </div>
                 </section>
 

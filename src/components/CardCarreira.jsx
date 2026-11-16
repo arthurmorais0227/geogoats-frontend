@@ -4,7 +4,11 @@ export default function CardCarreira({ carreira }) {
     const { nome, cor, faz, trabalha, caminho } = carreira;
 
     return (
-        <article className={styles.careerCard} style={{ '--accent': cor }}>
+        <article
+            className={styles.careerCard}
+            style={{ '--accent': cor }}
+            data-revelar="card"
+        >
             <header className={styles.cardHeader}>
                 <span className={styles.cardColor} aria-hidden="true" />
                 <div className={styles.cardTitle}>

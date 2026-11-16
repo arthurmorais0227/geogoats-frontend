@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+/* TituloAnimado: começa escondido e o GSAP mostra (evita piscar antes do JS) */
+@media (prefers-reduced-motion: no-preference) {
+    [data-titulo-animado] {
+        visibility: hidden;
+    }
+}
+
+/* Cards que sobem ao entrar na tela (data-visivel é colocado pelo ScrollEffects).
+   Usa transform para não brigar com o hover, que mexe no translate. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+    [data-revelar='card'] {
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+            opacity 0.6s ease,
+            transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.3s ease,
+            translate 0.3s ease;
+    }
+
+    [data-revelar='card'][data-visivel='true'] {
+        opacity: 1;
+        transform: none;
+    }
+}

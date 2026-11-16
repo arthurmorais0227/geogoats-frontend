@@ -1,6 +1,7 @@
 .hero,
 .main {
-    --fundo: #e6fbdf;
+    /* mesma cor da base da imagem da hero, para não ter emenda */
+    --fundo: #dcfad1;
 }
 
 .hero {
@@ -16,8 +17,6 @@
 .heroImage {
     object-fit: cover;
     object-position: center 48%;
-    transform: translateY(calc(min(var(--scroll, 0), 900) * 0.18px));
-    will-change: transform;
 }
 
 .heroContent {
@@ -35,9 +34,12 @@
 }
 
 .heroContent h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 800;
+    font-size: clamp(3rem, 7vw, 5.2rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
     line-height: 1.1;
+    color: #000000;
+    margin-top: 6rem;
 }
 
 .heroContent p {
@@ -47,47 +49,9 @@
     text-shadow: 0 2px 12px rgba(1, 21, 26, 0.55);
 }
 
-.camadaNuvens {
-    position: absolute;
-    left: -5%;
-    width: 110%;
-    pointer-events: none;
-    will-change: transform;
-}
-
-.camadaNuvens svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    fill: currentColor;
-}
-
-.camadaNuvens span {
-    display: block;
-    height: 100vh;
-    margin-top: -1px;
-    background-color: currentColor;
-}
-
-.nuvensFundo {
-    top: calc(100% - 27vw - 3rem);
-    z-index: 3;
-    color: #cfeac8;
-    transform: translateY(calc(min(var(--scroll, 0), 900) * -0.12px)) scaleX(-1);
-}
-
-.nuvensFrente {
-    top: calc(100% - 24vw - 3rem);
-    z-index: 4;
-    color: var(--fundo);
-    transform: translateY(calc(min(var(--scroll, 0), 900) * -0.18px));
-    filter: drop-shadow(0 -6px 14px rgba(1, 21, 26, 0.18));
-}
-
 .main {
     position: relative;
     z-index: 1;
-    margin-top: -3rem;
     padding: 5rem 1.5rem 8rem;
     background-color: var(--fundo);
 }
@@ -424,13 +388,10 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .heroImage,
-    .nuvensFrente {
-        transform: none;
-    }
-
-    .nuvensFundo {
-        transform: scaleX(-1);
+/* ===== Parallax da hero (--scroll vem do ScrollEffects) ===== */
+@media (prefers-reduced-motion: no-preference) {
+    .heroImage {
+        transform: translateY(calc(min(var(--scroll, 0), 900) * 0.25px));
+        will-change: transform;
     }
 }
