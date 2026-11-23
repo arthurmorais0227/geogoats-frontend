@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ArrowLeft, Compass } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import styles from './not-found.module.css';
+import { climateCrisis } from './fonts';
 
 export default function NotFound() {
     return (
@@ -29,7 +30,7 @@ export default function NotFound() {
                         <Compass size={18} aria-hidden="true" />
                         404
                     </span>
-                    <h1 id="titulo-not-found">Você saiu do mapa</h1>
+                    <h1 id="titulo-not-found" className={climateCrisis.className} >Você saiu do mapa</h1>
                     <p>
                         Esta página não existe ou mudou de coordenadas.
                         Volte ao início e continue explorando o planeta.
