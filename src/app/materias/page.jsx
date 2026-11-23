@@ -1,13 +1,6 @@
-import {
-    Compass,
-    Earth,
-    Globe,
-    Leaf,
-    Map,
-    Mountain,
-    Users,
-} from 'lucide-react';
+import axios from 'axios';
 import Image from 'next/image';
+import CardTema from '@/components/CardTema';
 import Navbar from '@/components/Navbar';
 import TituloAnimado from '@/components/TituloAnimado';
 import ScrollEffects from '@/components/ScrollEffects';
@@ -20,66 +13,28 @@ export const metadata = {
         'Explore as principais matérias da Geografia e descubra os temas de cada área.',
 };
 
-const materias = [
-    {
-        id: 'fisica',
-        titulo: 'Geografia Física',
-        descricao:
-            'Estude os elementos naturais e os processos que transformam as paisagens do planeta.',
-        assuntos: ['Relevo', 'Clima', 'Hidrografia', 'Biomas'],
-        Icon: Mountain,
-    },
-    {
-        id: 'humana',
-        titulo: 'Geografia Humana',
-        descricao:
-            'Entenda como as sociedades ocupam, organizam e transformam os diferentes espaços.',
-        assuntos: ['População', 'Cidades', 'Migrações', 'Cultura'],
-        Icon: Users,
-    },
-    {
-        id: 'cartografia',
-        titulo: 'Cartografia',
-        descricao:
-            'Aprenda a representar e interpretar o espaço por meio de mapas e outras linguagens.',
-        assuntos: ['Mapas', 'Escalas', 'Coordenadas', 'Projeções'],
-        Icon: Map,
-    },
-    {
-        id: 'geopolitica',
-        titulo: 'Geopolítica',
-        descricao:
-            'Investigue as relações de poder, os territórios e as conexões entre países e regiões.',
-        assuntos: ['Território', 'Fronteiras', 'Globalização', 'Conflitos'],
-        Icon: Globe,
-    },
-    {
-        id: 'economica',
-        titulo: 'Geografia Econômica',
-        descricao:
-            'Conheça como a produção, o comércio e os transportes se distribuem pelo mundo.',
-        assuntos: ['Agricultura', 'Indústria', 'Comércio', 'Transportes'],
-        Icon: Compass,
-    },
-    {
-        id: 'ambiental',
-        titulo: 'Meio Ambiente',
-        descricao:
-            'Compreenda a relação entre as atividades humanas, os ecossistemas e a sustentabilidade.',
-        assuntos: ['Ecossistemas', 'Conservação', 'Impactos', 'Sustentabilidade'],
-        Icon: Leaf,
-    },
-    {
-        id: 'astronomia',
-        titulo: 'Geografia e Astronomia',
-        descricao:
-            'Explore a Terra no espaço e os movimentos que influenciam os ritmos do nosso planeta.',
-        assuntos: ['Sistema Solar', 'Rotação', 'Translação', 'Fusos horários'],
-        Icon: Earth,
-    },
-];
+export const revalidate = 60;
 
-export default function MateriasPage() {
+export default async function MateriasPage() {
+    let temas = [];
+    let carregamentoFalhou = false;
+
+    try {
+        const resp = await axios.get(`${process.env.API_URL}/temas`, {
+            headers: { 'x-api-key': process.env.API_KEY },
+            timeout: 30000,
+        });
+
+        if (!Array.isArray(resp.data)) {
+            throw new Error('A API de temas retornou um formato inesperado.');
+        }
+
+        temas = resp.data;
+    } catch (error) {
+        console.error('Erro ao buscar temas:', error.message);
+        carregamentoFalhou = true;
+    }
+
     return (
         <>
             <ScrollEffects />
@@ -132,37 +87,24 @@ export default function MateriasPage() {
                     </div>
 
                     <div className={styles.cards}>
-                        {materias.map(
-                            ({ id, titulo, descricao, assuntos, Icon }) => (
-                                <article
-                                    className={styles.card}
-                                    key={id}
-                                    data-revelar
-                                >
-                                    <span className={styles.cardIcon}>
-                                        <Icon size={28} aria-hidden="true" />
-                                    </span>
-                                    <h3>{titulo}</h3>
-                                    <p>{descricao}</p>
-                                    <ul
-                                        className={styles.topics}
-                                        aria-label={`Assuntos de ${titulo}`}
-                                    >
-                                        {assuntos.map((assunto) => (
-                                            <li key={assunto}>{assunto}</li>
-                                        ))}
-                                    </ul>
-                                </article>
-                            ),
+                        {temas.length === 0 ? (
+                            <p className={styles.semTemas}>
+                                {carregamentoFalhou
+                                    ? 'Não foi possível carregar as matérias agora.'
+                                    : 'Nenhuma matéria disponível.'}
+                            </p>
+                        ) : (
+                            temas.map((tema, indice) => (
+                                <CardTema
+                                    key={tema.id}
+                                    tema={tema}
+                                    indice={indice}
+                                />
+                            ))
                         )}
                     </div>
                 </section>
             </main>
-
-            <footer className={styles.footer}>
-                <p>GeoGoats &copy; {new Date().getFullYear()}</p>
-                <p>Aprender Geografia é descobrir o mundo.</p>
-            </footer>
         </>
     );
 }
