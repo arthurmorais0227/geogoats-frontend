@@ -22,24 +22,25 @@
 .heroContent {
     position: absolute;
     z-index: 2;
-    top: 4rem;
+    top: 10rem;
     left: 50%;
     display: flex;
     width: min(90%, 700px);
     flex-direction: column;
     align-items: center;
     translate: -50% 0;
-    color: #000000;
+    color: #fff;
     text-align: center;
+    text-shadow: 0 2px 18px rgba(1, 21, 26, 0.55);
 }
 
 .heroContent h1 {
     font-size: clamp(3rem, 7vw, 5.2rem);
     font-weight: 400;
     letter-spacing: 0.08em;
-    line-height: 1.1;
-    color: #000000;
-    margin-top: 6rem;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(1, 21, 26, 0.35);
 }
 
 .heroContent p {
@@ -93,24 +94,20 @@
 
 .balao {
     position: relative;
-    height: 100px;
+    display: flex;
+    min-height: 100px;
     margin: 0 0 0 1rem;
     flex: 1;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
     border: 1px solid #e4e4e4;
     border-radius: 9px;
     background: #fff;
     box-shadow: 0 2px 6px rgba(1, 21, 26, 0.04);
-}
-
-.balao::before {
-    position: absolute;
-    bottom: 3px;
-    left: -11px;
-    width: 0;
-    height: 0;
-    border-top: 12px solid transparent;
-    border-right: 12px solid #fff;
-    content: "";
+    color: #111;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 800;
+    line-height: 1.35;
 }
 
 .introText {
@@ -296,7 +293,11 @@
     }
 
     .balao {
-        height: 54px;
+        min-height: 72px;
+        margin-left: 0.5rem;
+        padding: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.25;
     }
 
     .careerGrid {
