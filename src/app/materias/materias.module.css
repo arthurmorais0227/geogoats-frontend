@@ -81,7 +81,7 @@
     font-weight: 400;
     line-height: 1;
     letter-spacing: 0.08em;
-    text-shadow: none; /* sem sombra no título (a do .heroContent fica só no texto) */
+    text-shadow: 0 2px 18px rgba(1, 21, 26, 0.42); /* sem sombra no título (a do .heroContent fica só no texto) */
 }
 
 .heroContent p {
