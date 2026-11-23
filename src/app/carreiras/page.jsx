@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Dosis } from 'next/font/google';
 import Image from 'next/image';
 import CardCarreira from '@/components/CardCarreira';
@@ -9,81 +10,34 @@ import styles from './page.module.css';
 
 const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
 
-const carreiras = [
-    {
-        nome: 'Geógrafo(a)',
-        cor: '#83d2a3',
-        faz: 'Estuda como pessoas, natureza e economia se organizam no espaço e ajuda a planejar o uso do território.',
-        trabalha:
-            'Prefeituras, órgãos públicos como o IBGE, consultorias e ONGs.',
-        caminho: 'Graduação em Geografia (bacharelado), com registro no CREA.',
-    },
-    {
-        nome: 'Cartógrafo(a)',
-        cor: '#f1d05c',
-        faz: 'Cria e atualiza mapas usando dados geográficos, imagens e tecnologias digitais.',
-        trabalha:
-            'Institutos de pesquisa, empresas de mapeamento e órgãos públicos.',
-        caminho: 'Graduação em Geografia ou Engenharia Cartográfica.',
-    },
-    {
-        nome: 'Professor(a) de Geografia',
-        cor: '#ad89d2',
-        faz: 'Ensina sobre o espaço geográfico, a sociedade, a natureza e suas relações.',
-        trabalha:
-            'Escolas públicas e particulares, cursos e projetos educativos.',
-        caminho: 'Licenciatura em Geografia.',
-    },
-    {
-        nome: 'Geólogo(a)',
-        cor: '#dc9696',
-        faz: 'Investiga a formação da Terra, as rochas, os minerais e os recursos naturais.',
-        trabalha:
-            'Mineradoras, órgãos ambientais, consultorias e centros de pesquisa.',
-        caminho: 'Graduação em Geologia.',
-    },
-    {
-        nome: 'Climatologista',
-        cor: '#8cc4d5',
-        faz: 'Analisa o clima e as mudanças nos padrões de temperatura e chuva.',
-        trabalha:
-            'Institutos de pesquisa, universidades e órgãos de monitoramento.',
-        caminho: 'Formação em Geografia, Meteorologia ou áreas relacionadas.',
-    },
-    {
-        nome: 'Urbanista',
-        cor: '#83d2b2',
-        faz: 'Planeja cidades e propõe soluções para mobilidade, moradia e espaços públicos.',
-        trabalha: 'Prefeituras, escritórios de planejamento e consultorias.',
-        caminho: 'Graduação em Arquitetura e Urbanismo ou áreas relacionadas.',
-    },
-    {
-        nome: 'Analista ambiental',
-        cor: '#d5b68f',
-        faz: 'Avalia impactos ambientais e ajuda a cuidar dos recursos naturais.',
-        trabalha:
-            'Órgãos ambientais, empresas, parques e organizações sociais.',
-        caminho: 'Formação em Geografia, Gestão Ambiental ou áreas afins.',
-    },
-    {
-        nome: 'Meteorologista',
-        cor: '#90a9d8',
-        faz: 'Observa a atmosfera e prepara previsões do tempo e alertas climáticos.',
-        trabalha:
-            'Institutos de meteorologia, aeroportos, mídia e centros de pesquisa.',
-        caminho: 'Graduação em Meteorologia.',
-    },
-    {
-        nome: 'Geoprocessamento',
-        cor: '#d589ba',
-        faz: 'Organiza e analisa informações ligadas a lugares usando mapas digitais.',
-        trabalha: 'Empresas de tecnologia, órgãos públicos e consultorias.',
-        caminho:
-            'Formação em Geografia, Geoprocessamento ou áreas relacionadas.',
-    },
+const coresCarreira = [
+    '#83d2a3',
+    '#f1d05c',
+    '#ad89d2',
+    '#dc9696',
+    '#8cc4d5',
+    '#83d2b2',
+    '#d5b68f',
+    '#90a9d8',
+    '#d589ba',
 ];
 
-export default function Page() {
+export const revalidate = 60;
+
+export default async function Page() {
+    let carreiras = [];
+
+    try {
+        const resp = await axios.get(`${process.env.API_URL}/carreiras`, {
+            headers: { 'x-api-key': process.env.API_KEY },
+            timeout: 30000,
+        });
+
+        carreiras = Array.isArray(resp.data) ? resp.data : [];
+    } catch (error) {
+        console.error('Erro ao buscar carreiras:', error.message);
+    }
+
     return (
         <>
             <ScrollEffects />
@@ -163,12 +117,23 @@ export default function Page() {
                         </div>
 
                         <div className={styles.careerGrid}>
-                            {carreiras.map((carreira) => (
-                                <CardCarreira
-                                    key={carreira.nome}
-                                    carreira={carreira}
-                                />
-                            ))}
+                            {carreiras.length === 0 ? (
+                                <p className={styles.careerEmpty}>
+                                    Não foi possível carregar as carreiras agora.
+                                </p>
+                            ) : (
+                                carreiras.map((carreira, indice) => (
+                                    <CardCarreira
+                                        key={carreira.id}
+                                        carreira={carreira}
+                                        cor={
+                                            coresCarreira[
+                                                indice % coresCarreira.length
+                                            ]
+                                        }
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
                 </section>

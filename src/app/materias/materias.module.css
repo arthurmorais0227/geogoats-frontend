@@ -223,6 +223,35 @@
     font-weight: 700;
 }
 
+.cardAction {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--verde);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cardAction span {
+    transition: translate 0.25s ease;
+}
+
+.cardAction:hover span,
+.cardAction:focus-visible span {
+    translate: 5px 0;
+}
+
+.semTemas {
+    grid-column: 1 / -1;
+    color: var(--subtitulo);
+    text-align: center;
+}
+
 .footer {
     display: flex;
     min-height: 160px;
@@ -282,6 +311,10 @@
     }
 
     .card {
+        transition: none;
+    }
+
+    .cardAction span {
         transition: none;
     }
 

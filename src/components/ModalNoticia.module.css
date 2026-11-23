@@ -1,0 +1,237 @@
+.modal {
+    position: fixed;
+    inset: 4vh 0 auto;
+    width: min(820px, calc(100vw - 2rem));
+    max-height: 92vh;
+    margin: 0 auto;
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid #c7dfbf;
+    border-radius: 24px;
+    background: #f7fff4;
+    color: #233b2c;
+    box-shadow:
+        0 2px 6px rgba(3, 24, 18, 0.12),
+        0 28px 80px rgba(3, 24, 18, 0.35);
+}
+
+.modal[open] {
+    animation: entrar 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- scrollbar ----------
+   A trilha ganha margem vertical para ficar longe dos cantos arredondados,
+   e as setinhas das pontas são removidas. */
+.modal::-webkit-scrollbar {
+    width: 12px;
+}
+
+.modal::-webkit-scrollbar-track {
+    margin-block: 18px;
+    background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    border: 3px solid #f7fff4;
+    border-radius: 999px;
+    background: #b5d7aa;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background: #8cc99a;
+}
+
+.modal::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* Firefox (não usa ::-webkit-scrollbar) */
+@supports not selector(::-webkit-scrollbar) {
+    .modal {
+        scrollbar-width: thin;
+        scrollbar-color: #b5d7aa transparent;
+    }
+}
+
+.modal::backdrop {
+    background: rgba(3, 24, 18, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal[open]::backdrop {
+    animation: aparecer 0.28s ease-out;
+}
+
+@keyframes entrar {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ---------- cabeçalho fixo ---------- */
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    min-height: 3.75rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1rem 0.65rem 1.5rem;
+    border-bottom: 1px solid #dcebd7;
+    background: rgba(247, 255, 244, 0.92);
+    backdrop-filter: blur(8px);
+}
+
+.data {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    background: #e6f4df;
+    color: #3f7254;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.data::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #5fae6e;
+}
+
+.fechar {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #e6f4df;
+    color: #315d42;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.25s ease;
+}
+
+.fechar:hover,
+.fechar:focus-visible {
+    background: #d3ebc9;
+    transform: rotate(90deg);
+}
+
+.fechar:focus-visible,
+.modal:focus-visible {
+    outline: 3px solid #8cc99a;
+    outline-offset: 2px;
+}
+
+/* ---------- imagem ---------- */
+.imagem {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 340px;
+    object-fit: cover;
+    border-bottom: 1px solid #dcebd7;
+    background: #e6f4df;
+}
+
+/* ---------- texto ---------- */
+.artigo {
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.artigo h2 {
+    margin: 0;
+    color: #285038;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+}
+
+.artigo h2::after {
+    content: '';
+    display: block;
+    width: 52px;
+    height: 4px;
+    margin-top: 1rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #5fae6e, #a8d8a0);
+}
+
+.resumo {
+    margin: 1.5rem 0 0;
+    padding: 0.25rem 0 0.25rem 1rem;
+    border-left: 4px solid #a8d8a0;
+    color: #3f7254;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.conteudo {
+    max-width: 68ch;
+    margin-top: 1.75rem;
+    color: #344a39;
+    font-size: 1.03rem;
+    line-height: 1.8;
+    white-space: pre-line;
+    /* evita que links longos ("Fonte: https://...") estourem a largura */
+    overflow-wrap: anywhere;
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 600px) {
+    .modal {
+        inset: 2vh 0 auto;
+        width: calc(100vw - 1rem);
+        max-height: 96vh;
+        border-radius: 20px;
+    }
+
+    .cabecalho {
+        padding-left: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal,
+    .modal[open],
+    .modal[open]::backdrop {
+        animation: none;
+        scroll-behavior: auto;
+    }
+
+    .fechar {
+        transition: none;
+    }
+
+    .fechar:hover,
+    .fechar:focus-visible {
+        transform: none;
+    }
+}
