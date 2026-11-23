@@ -7,7 +7,11 @@ const nextConfig = {
         qualities: [75, 100],
         // fotos dos participantes vêm do GitHub
         remotePatterns: [
-            new URL('https://avatars.githubusercontent.com/**'),
+            {
+                protocol: 'https',
+                hostname: 'avatars.githubusercontent.com',
+                pathname: '/**',
+            },
         ],
     },
     turbopack: {
