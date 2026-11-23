@@ -51,24 +51,24 @@ const caminhos = [
 
 const emAlta = [
     {
-        titulo: 'O que é Geografia?',
+        titulo: 'Sobre Nós',
         descricao:
-            'Entenda o objeto de estudo da Geografia e seus principais conceitos.',
-        href: '/conteudos/o-que-e-geografia',
+            'Conheça o GeoGoats, nossa missão e quem faz parte do projeto.',
+        href: '/sobre',
         Icon: Globe,
     },
     {
-        titulo: 'Orientação e Coordenadas',
+        titulo: 'Matérias',
         descricao:
-            'Pontos cardeais, latitude e longitude para se localizar no mundo.',
-        href: '/conteudos/coordenadas',
+            'Explore as áreas e os temas que conectam natureza, sociedade e espaço.',
+        href: '/materias',
         Icon: Compass,
     },
     {
-        titulo: 'A Terra no Universo',
+        titulo: 'Notícias',
         descricao:
-            'Movimentos de rotação e translação, estações do ano e fusos horários.',
-        href: '/conteudos/terra',
+            'Acompanhe notícias e descubra a Geografia no mundo atual.',
+        href: '/noticias',
         Icon: Earth,
     },
 ];
@@ -250,11 +250,11 @@ export default function Page() {
                     <section className={styles.section}>
                         <div className={styles.sectionHeader}>
                             <h2 data-revelar-texto="letras">
-                                Conteúdos em Destaque
+                                Páginas do Projeto
                             </h2>
                             <p data-revelar-texto="palavras">
-                                Temas introdutórios que servem de base para o
-                                restante dos estudos.
+                                Conheça as principais áreas do GeoGoats e
+                                explore o que o projeto tem a oferecer.
                             </p>
                         </div>
 
@@ -304,7 +304,7 @@ export default function Page() {
                                     ) : (
                                         <>
                                             <Flame size={16} />
-                                            Em alta
+                                            Páginas do projeto
                                         </>
                                     )}
                                 </motion.span>
