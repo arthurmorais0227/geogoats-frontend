@@ -1,14 +1,12 @@
 import axios from 'axios';
 import { BookOpen, Compass, Sparkles } from 'lucide-react';
-import { Dosis } from 'next/font/google';
 import Image from 'next/image';
+import CardParticipante from '@/components/CardParticipante';
 import Navbar from '@/components/Navbar';
 import ScrollEffects from '@/components/ScrollEffects';
 import TituloAnimado from '@/components/TituloAnimado';
 import { climateCrisis } from '../fonts';
 import styles from './sobre.module.css';
-
-const dosis = Dosis({ subsets: ['latin'], weight: ['700', '800'] });
 
 const valores = [
     {
@@ -40,12 +38,11 @@ export default async function Page() {
     // Busca feita no servidor (SSR): a api-key não aparece no navegador
     try {
         const resp = await axios.get(`${process.env.API_URL}/participantes`, {
-            headers: {
-                'x-api-key': process.env.API_KEY,
-            },
+            headers: { 'x-api-key': process.env.API_KEY },
+            timeout: 30000, // Render free "dorme" e o 1º acesso pode demorar
         });
 
-        participantes = resp.data;
+        participantes = Array.isArray(resp.data) ? resp.data : [];
     } catch (error) {
         console.error('Erro ao buscar participantes:', error.message);
     }
@@ -80,7 +77,7 @@ export default async function Page() {
                 <section className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <span className={styles.sectionEyebrow}>Quem somos</span>
-                        <h2 className={dosis.className} data-revelar-texto="letras">
+                        <h2 data-revelar-texto="letras">
                             Nossa missão
                         </h2>
                         <p data-revelar-texto="palavras">
@@ -114,7 +111,7 @@ export default async function Page() {
                         <span className={styles.sectionEyebrow}>
                             Nossa equipe
                         </span>
-                        <h2 className={dosis.className} data-revelar-texto="letras">
+                        <h2 data-revelar-texto="letras">
                             Participantes
                         </h2>
                     </div>
@@ -126,22 +123,10 @@ export default async function Page() {
                     ) : (
                         <div className={styles.equipe}>
                             {participantes.map((participante) => (
-                                <article
+                                <CardParticipante
                                     key={participante.id}
-                                    className={styles.participante}
-                                    data-revelar="card"
-                                >
-                                    <Image
-                                        src={participante.foto}
-                                        alt={participante.nome}
-                                        width={120}
-                                        height={120}
-                                        className={styles.foto}
-                                    />
-                                    <h3>{participante.nome}</h3>
-                                    <p>{participante.curso}</p>
-                                    <span>{participante.idade}</span>
-                                </article>
+                                    participante={participante}
+                                />
                             ))}
                         </div>
                     )}

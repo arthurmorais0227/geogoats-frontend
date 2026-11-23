@@ -117,7 +117,10 @@ export default function Page() {
                                 className={styles.mascoteImage}
                             />
                         </div>
-                        <div className={styles.balao} aria-hidden="true" />
+                        <div className={`${styles.balao} ${dosis.className}`}>
+                            Em dúvida sobre qual caminho seguir? Pega sua bússola e
+                            vem conferir as carreiras!
+                        </div>
                     </div>
 
                     <div className={styles.introText}>
