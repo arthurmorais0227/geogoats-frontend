@@ -1,7 +1,13 @@
 import styles from '@/app/carreiras/page.module.css';
 
-export default function CardCarreira({ carreira }) {
-    const { nome, cor, faz, trabalha, caminho } = carreira;
+export default function CardCarreira({ carreira, cor }) {
+    const {
+        nome,
+        descricao,
+        cursosRelacionados,
+        habilidades,
+        salarioMedio,
+    } = carreira;
 
     return (
         <article
@@ -18,18 +24,30 @@ export default function CardCarreira({ carreira }) {
             </header>
 
             <dl className={styles.cardDetails}>
-                <div>
-                    <dt>O que faz?</dt>
-                    <dd>{faz}</dd>
-                </div>
-                <div>
-                    <dt>Onde trabalha?</dt>
-                    <dd>{trabalha}</dd>
-                </div>
-                <div>
-                    <dt>Como chegar lá?</dt>
-                    <dd>{caminho}</dd>
-                </div>
+                {descricao && (
+                    <div>
+                        <dt>Descrição</dt>
+                        <dd>{descricao}</dd>
+                    </div>
+                )}
+                {cursosRelacionados?.length > 0 && (
+                    <div>
+                        <dt>Cursos relacionados</dt>
+                        <dd>{cursosRelacionados.join(', ')}</dd>
+                    </div>
+                )}
+                {habilidades?.length > 0 && (
+                    <div>
+                        <dt>Habilidades</dt>
+                        <dd>{habilidades.join(', ')}</dd>
+                    </div>
+                )}
+                {salarioMedio && (
+                    <div>
+                        <dt>Salário médio</dt>
+                        <dd>{salarioMedio}</dd>
+                    </div>
+                )}
             </dl>
         </article>
     );

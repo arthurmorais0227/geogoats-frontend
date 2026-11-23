@@ -132,10 +132,6 @@ export default async function Page() {
                     )}
                 </section>
             </main>
-
-            <footer className={styles.footer}>
-                <p>GeoGoats &copy; {new Date().getFullYear()}</p>
-            </footer>
         </>
     );
 }

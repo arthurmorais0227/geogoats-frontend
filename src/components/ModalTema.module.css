@@ -1,0 +1,82 @@
+.modal {
+    position: fixed;
+    inset: 4vh 0 auto;
+    width: min(720px, calc(100vw - 2rem));
+    max-height: 92vh;
+    margin: 0 auto;
+    padding: 0;
+    overflow-y: auto;
+    border: 1px solid #c7dfbf;
+    border-radius: 20px;
+    background: #f7fff4;
+    color: #233b2c;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+}
+
+.modal::backdrop {
+    background: rgba(3, 24, 18, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    min-height: 3.75rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1rem 0.65rem 1.5rem;
+    border-bottom: 1px solid #dcebd7;
+    background: rgba(247, 255, 244, 0.96);
+}
+
+.slug {
+    color: #4a7d5c;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.fechar {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #e6f4df;
+    color: #315d42;
+    cursor: pointer;
+}
+
+.fechar:hover,
+.fechar:focus-visible {
+    background: #d3ebc9;
+}
+
+.artigo {
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.artigo h2 {
+    color: #315d42;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    line-height: 1.2;
+}
+
+.descricao {
+    margin-top: 1rem;
+    color: #4a7d5c;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.codigo {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: #e6f4df;
+    color: #315d42;
+    font-size: 0.9rem;
+    font-weight: 700;
+}

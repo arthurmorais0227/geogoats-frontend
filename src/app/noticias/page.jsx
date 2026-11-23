@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CardNoticia from '@/components/CardNoticia';
 import Navbar from '@/components/Navbar';
 import ScrollEffects from '@/components/ScrollEffects';
@@ -25,62 +25,7 @@ import styles from './noticias.module.css';
 
 gsap.registerPlugin(useGSAP, SplitText);
 
-const noticias = [
-    {
-        id: 1,
-        categoria: 'Meio ambiente',
-        titulo: 'A Amazônia e seu papel no equilíbrio do planeta',
-        descricao:
-            'Entenda como a floresta influencia o clima, a biodiversidade e a vida de milhões de pessoas.',
-        href: '/noticias/amazonia',
-        Icon: Leaf,
-    },
-    {
-        id: 2,
-        categoria: 'Clima',
-        titulo: 'Por que as ondas de calor estão mais frequentes?',
-        descricao:
-            'Conheça os fatores que afetam as temperaturas e como eles se manifestam em diferentes regiões.',
-        href: '/noticias/ondas-de-calor',
-        Icon: Earth,
-    },
-    {
-        id: 3,
-        categoria: 'Cartografia',
-        titulo: 'Mapas também contam histórias',
-        descricao:
-            'Veja como mapas ajudam a revelar transformações nas cidades e nas paisagens ao longo do tempo.',
-        href: '/noticias/mapas-e-historias',
-        Icon: MapIcon,
-    },
-    {
-        id: 4,
-        categoria: 'Relevo',
-        titulo: 'Montanhas: muito além de grandes paisagens',
-        descricao:
-            'Descubra como o relevo influencia os rios, o clima e a ocupação humana.',
-        href: '/noticias/montanhas',
-        Icon: Mountain,
-    },
-    {
-        id: 5,
-        categoria: 'Água',
-        titulo: 'O caminho da água da nascente até o mar',
-        descricao:
-            'Uma viagem pelos rios e pelas bacias hidrográficas que conectam diferentes territórios.',
-        href: '/noticias/caminho-da-agua',
-        Icon: Waves,
-    },
-    {
-        id: 6,
-        categoria: 'Sociedade',
-        titulo: 'Como a Geografia nos ajuda a entender o mundo',
-        descricao:
-            'Do lugar onde vivemos às conexões globais: explore as relações entre pessoas e espaço.',
-        href: '/noticias/geografia-e-mundo',
-        Icon: Compass,
-    },
-];
+const iconesNoticia = [Leaf, Earth, MapIcon, Mountain, Waves, Compass];
 
 // "Água" e "agua" batem igual: ignora acentos e maiúsculas
 const normalizar = (texto) =>
@@ -89,11 +34,11 @@ const normalizar = (texto) =>
         .replace(/\p{Diacritic}/gu, '')
         .toLowerCase();
 
-function buscarNoticias(termo) {
+function buscarNoticias(noticias, termo) {
     const busca = normalizar(termo.trim());
     if (!busca) return [];
-    return noticias.filter(({ titulo, descricao, categoria }) =>
-        normalizar(`${titulo} ${descricao} ${categoria}`).includes(busca),
+    return noticias.filter(({ titulo, resumo, conteudo }) =>
+        normalizar(`${titulo} ${resumo} ${conteudo}`).includes(busca),
     );
 }
 
@@ -108,9 +53,66 @@ const troca = {
 export default function NoticiasPage() {
     const raizRef = useRef(null);
     const [termo, setTermo] = useState('');
+    const [noticias, setNoticias] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [carregamentoFalhou, setCarregamentoFalhou] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        async function carregarNoticias() {
+            try {
+                const resp = await fetch('/api/noticias', {
+                    cache: 'no-store',
+                    signal: controller.signal,
+                });
+
+                if (!resp.ok) {
+                    throw new Error(
+                        `Falha ao carregar notícias (HTTP ${resp.status}).`,
+                    );
+                }
+
+                const dados = await resp.json();
+                if (!Array.isArray(dados)) {
+                    throw new Error(
+                        'A API de notícias retornou um formato inesperado.',
+                    );
+                }
+
+                dados.sort(
+                    (a, b) =>
+                        new Date(b.dataPublicacao).getTime() -
+                        new Date(a.dataPublicacao).getTime(),
+                );
+                setNoticias(dados);
+            } catch (error) {
+                if (error.name === 'AbortError') return;
+
+                console.error('Erro ao buscar notícias:', error.message);
+                setCarregamentoFalhou(true);
+            } finally {
+                if (!controller.signal.aborted) {
+                    setCarregando(false);
+                }
+            }
+        }
+
+        carregarNoticias();
+        return () => controller.abort();
+    }, []);
 
     const buscando = termo.trim() !== '';
-    const resultados = buscando ? buscarNoticias(termo) : noticias;
+    const resultados = buscando ? buscarNoticias(noticias, termo) : noticias;
+    let mensagemSemResultados = 'Nada encontrado. Tente outro termo.';
+
+    if (carregando) {
+        mensagemSemResultados = 'Carregando notícias...';
+    } else if (noticias.length === 0) {
+        mensagemSemResultados = carregamentoFalhou
+            ? 'Não foi possível carregar as notícias agora.'
+            : 'Nenhuma notícia disponível.';
+    }
 
     // ===== GSAP: entrada da hero =====
     useGSAP(
@@ -266,6 +268,11 @@ export default function NoticiasPage() {
                                         key={noticia.id}
                                         indice={indice}
                                         {...noticia}
+                                        Icon={
+                                            iconesNoticia[
+                                                indice % iconesNoticia.length
+                                            ]
+                                        }
                                     />
                                 ))}
                             </AnimatePresence>
@@ -278,7 +285,7 @@ export default function NoticiasPage() {
                                     {...troca}
                                 >
                                     <SearchX size={20} />
-                                    Nada encontrado. Tente outro termo.
+                                    {mensagemSemResultados}
                                 </motion.p>
                             )}
                         </AnimatePresence>
