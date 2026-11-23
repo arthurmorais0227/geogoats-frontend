@@ -339,10 +339,6 @@ export default function Page() {
                     </section>
                 </main>
 
-                <footer className={styles.footer}>
-                    <p>GeoGoats &copy; {new Date().getFullYear()}</p>
-                    <p>Next.js - React - Lucide - GSAP - Motion</p>
-                </footer>
             </div>
         </MotionConfig>
     );
