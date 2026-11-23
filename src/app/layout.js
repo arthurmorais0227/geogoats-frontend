@@ -5,8 +5,8 @@ import Footer from '@/components/Footer';
 import styles from '@/components/Footer.module.css';
 
 export const metadata = {
-    title: 'FrontEnd - Codeverse',
-    description: 'Template do Codeverse',
+    title: 'GeoGoats',
+    description: 'Sistema para geográfos e estudantes',
     icons: {
         icon: '/images/icon.png',
     },
