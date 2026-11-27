@@ -1,4 +1,4 @@
-import { ArrowUp, Compass, ExternalLink, Heart } from 'lucide-react';
+import { ArrowUp, Compass, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { climateCrisis } from '@/app/fonts';
@@ -110,11 +110,6 @@ export default function Footer() {
                     <p>
                         GeoGoats &copy; {new Date().getFullYear()} · Projeto
                         Integrador SENAI/SESI Valinhos
-                    </p>
-
-                    <p className={styles.feitoCom}>
-                        Feito com <Heart size={14} aria-label="amor" /> pela
-                        equipe GeoGoats
                     </p>
 
                     <div className={styles.acoes}>
