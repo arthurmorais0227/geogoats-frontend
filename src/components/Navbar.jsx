@@ -68,3 +68,65 @@ export default function Navbar() {
                         </ul>
                     </nav>
                 </Component>
+
+                <div className={styles.conta}>
+                    {!isSignedIn ? (
+                        <>
+                            <SignInButton mode="modal">
+                                <button type="button" className={styles.navLink}>
+                                    Entrar
+                                </button>
+                            </SignInButton>
+                            <SignUpButton mode="modal">
+                                <button type="button" className={styles.navLink}>
+                                    Cadastrar
+                                </button>
+                            </SignUpButton>
+                        </>
+                    ) : (
+                        <>
+                            {areas.map((rota) => (
+                                <Link key={rota} href={`/${rota}`} className={styles.navLink}>
+                                    {rota}
+                                </Link>
+                            ))}
+                            <UserButton />
+                        </>
+                    )}
+                </div>
+
+                <button
+                    type="button"
+                    className={styles.menuButton}
+                    aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+                    aria-expanded={menuOpen}
+                    aria-controls="navegacao-mobile"
+                    onClick={() => setMenuOpen((aberto) => !aberto)}
+                >
+                    {menuOpen ? <X size={20} /> : <Menu size={20} />}
+                </button>
+
+                <Component
+                    id="navegacao-mobile"
+                    className={`${styles.mobileDrawer} ${menuOpen ? styles.mobileDrawerOpen : ''}`}
+                >
+                    <nav aria-label="Navegação principal mobile">
+                        <ul className={styles.mobileDrawerList}>
+                            {links.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className={styles.mobileDrawerLink}
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                </Component>
+            </div>
+        </div>
+    );
+}
