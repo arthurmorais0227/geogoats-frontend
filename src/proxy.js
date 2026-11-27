@@ -1,27 +1,24 @@
-import jwt from 'jsonwebtoken';
+import { clerkClient, clerkMiddleware } from '@clerk/nextjs/server';
+import { ACESSO } from '@lib/acesso';
 import { NextResponse } from 'next/server';
 
-function lerToken(token) {
-    try {
-        return jwt.verify(token, process.env.JWT_SECRET);
-    } catch {
-        return null;
-    }
-}
+export default clerkMiddleware(async (auth, req) => {
+    const rota = req.nextUrl.pathname.split('/')[1];
 
-export function proxy(request) {
-    const usuario = lerToken(request.cookies.get('token')?.value);
-    const { pathname } = request.nextUrl;
+    if (!Object.hasOwn(ACESSO, rota)) return; // rota pública
 
-    if (pathname.startsWith('/admin') && !usuario?.isAdmin) {
-        return NextResponse.redirect(new URL('/login', request.url));
+    const { userId } = await auth();
+    const client = await clerkClient();
+    const user = userId ? await client.users.getUser(userId) : null;
+
+    if (!ACESSO[rota].includes(user?.publicMetadata.role)) {
+        return NextResponse.redirect(new URL('/', req.url), { status: 302 });
     }
-    if (pathname === '/login' && usuario) {
-        return NextResponse.redirect(new URL('/admin', request.url));
-    }
-    return NextResponse.next();
-}
+});
 
 export const config = {
-    matcher: ['/admin/:path*', '/login'],
+    matcher: [
+        '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+        '/(api|trpc)(.*)',
+    ],
 };
