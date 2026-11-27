@@ -11,7 +11,7 @@ export const revalidate = 60;
 
 export const metadata = {
     title: 'Estágios | GeoGoats',
-    description: '',
+    description: 'Informações sobre estágio e direitos de estudantes.',
 };
 
 const contornoNuvem =
@@ -128,7 +128,7 @@ export default async function EstagioPage() {
 
                     <article className={`${styles.nota} ${styles.notaDireitos}`}>
                         <span className={styles.tachinha} aria-hidden="true" />
-                        <h2>Missão: Conhecer teus direitos</h2>
+                        <h2>Direitos no estágio</h2>
                         <ul>
                             <li>Até 6h por dia / 30h semanais</li>
                             <li>Bolsa e auxílio transporte no estágio não obrigatório</li>
