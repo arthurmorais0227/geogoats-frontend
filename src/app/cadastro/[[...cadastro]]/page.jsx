@@ -1,19 +1,14 @@
 import { SignUp } from '@clerk/nextjs';
-import Image from 'next/image';
-import styles from '../../auth.module.css';
+import TelaAuth from '@/components/TelaAuth';
+import { aparenciaAuth } from '@/lib/aparenciaAuth';
 
 export default function Cadastro() {
     return (
-        <main className={styles.tela}>
-            <Image
-                src="/images/logo.png"
-                alt="GeoGoats"
-                width={572}
-                height={572}
-                className={styles.logo}
-                priority
-            />
-            <SignUp />
-        </main>
+        <TelaAuth
+            titulo="Crie sua conta"
+            subtitulo="Mapas, notícias, simulados e carreiras de Geografia em um só lugar."
+        >
+            <SignUp appearance={aparenciaAuth} />
+        </TelaAuth>
     );
 }

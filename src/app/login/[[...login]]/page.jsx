@@ -1,19 +1,14 @@
 import { SignIn } from '@clerk/nextjs';
-import Image from 'next/image';
-import styles from '../../auth.module.css';
+import TelaAuth from '@/components/TelaAuth';
+import { aparenciaAuth } from '@/lib/aparenciaAuth';
 
 export default function Login() {
     return (
-        <main className={styles.tela}>
-            <Image
-                src="/images/logo.png"
-                alt="GeoGoats"
-                width={572}
-                height={572}
-                className={styles.logo}
-                priority
-            />
-            <SignIn />
-        </main>
+        <TelaAuth
+            titulo="Bem-vindo de volta!"
+            subtitulo="Cada canto do planeta guarda uma descoberta. Sua próxima jornada começa aqui."
+        >
+            <SignIn appearance={aparenciaAuth} />
+        </TelaAuth>
     );
 }
