@@ -1,18 +1,29 @@
-import { clerkClient, clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkClient, clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { ACESSO } from '@lib/acesso';
 import { NextResponse } from 'next/server';
 
-export default clerkMiddleware(async (auth, req) => {
-    const rota = req.nextUrl.pathname.split('/')[1];
+// páginas que podem ser abertas sem login
+const rotaPublica = createRouteMatcher(['/login(.*)', '/cadastro(.*)']);
 
-    if (!Object.hasOwn(ACESSO, rota)) return; // rota pública
+export default clerkMiddleware(async (auth, req) => {
+    if (rotaPublica(req)) return;
 
     const { userId } = await auth();
-    const client = await clerkClient();
-    const user = userId ? await client.users.getUser(userId) : null;
 
-    if (!ACESSO[rota].includes(user?.publicMetadata.role)) {
-        return NextResponse.redirect(new URL('/', req.url), { status: 302 });
+    // sem login → tela de login
+    if (!userId) {
+        return NextResponse.redirect(new URL('/login', req.url));
+    }
+
+    // rotas com papel (ex.: /admin)
+    const rota = req.nextUrl.pathname.split('/')[1];
+    if (!Object.hasOwn(ACESSO, rota)) return;
+
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
+
+    if (!ACESSO[rota].includes(user.publicMetadata.role)) {
+        return NextResponse.redirect(new URL('/', req.url));
     }
 });
 
