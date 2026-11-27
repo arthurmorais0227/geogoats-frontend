@@ -204,6 +204,21 @@
     overflow-wrap: anywhere;
 }
 
+.fonte {
+    margin-top: 1.5rem;
+    color: #3f7254;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.fonte a {
+    color: #285038;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
 /* ---------- celular ---------- */
 @media (max-width: 600px) {
     .modal {
