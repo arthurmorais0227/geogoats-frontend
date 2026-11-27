@@ -9,6 +9,21 @@ import styles from './ModalNoticia.module.css';
 export default function ModalNoticia({ noticia, onClose }) {
     const dialogRef = useRef(null);
     const tituloId = useId();
+    const fonte =
+        typeof noticia.fonte === 'string' ? noticia.fonte.trim() : '';
+    let urlFonte = null;
+
+    if (fonte) {
+        try {
+            const url = new URL(fonte);
+            if (url.protocol === 'http:' || url.protocol === 'https:') {
+                urlFonte = url.href;
+            }
+        } catch {
+            urlFonte = null;
+        }
+    }
+
     const data = noticia.dataPublicacao
         ? new Date(noticia.dataPublicacao)
         : null;
@@ -98,6 +113,22 @@ export default function ModalNoticia({ noticia, onClose }) {
                 )}
                 {noticia.conteudo && (
                     <p className={styles.conteudo}>{noticia.conteudo}</p>
+                )}
+                {fonte && (
+                    <p className={styles.fonte}>
+                        <strong>Fonte:</strong>{' '}
+                        {urlFonte ? (
+                            <a
+                                href={urlFonte}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {fonte}
+                            </a>
+                        ) : (
+                            fonte
+                        )}
+                    </p>
                 )}
             </article>
         </dialog>,
