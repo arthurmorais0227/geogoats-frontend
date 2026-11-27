@@ -34,7 +34,7 @@ const colunas = [
     },
 ];
 
-const tecnologias = ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'GSAP'];
+const tecnologias = ['Next.js', 'React', 'Tailwind CSS', 'GSAP'];
 
 export default function Footer() {
     return (
@@ -74,9 +74,9 @@ export default function Footer() {
                         </Link>
 
                         <p className={styles.tagline}>
-                            Geografia explicada de um jeito simples, visual e
-                            divertido. Natureza, sociedade e mapas em um só
-                            lugar para o Ensino Médio.
+                            Conteúdos de Geografia para estudar temas,
+                            acompanhar notícias e conhecer carreiras no Ensino
+                            Médio.
                         </p>
 
                         <ul className={styles.tecnologias} aria-label="Tecnologias">

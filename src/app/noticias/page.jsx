@@ -104,13 +104,14 @@ export default function NoticiasPage() {
 
     const buscando = termo.trim() !== '';
     const resultados = buscando ? buscarNoticias(noticias, termo) : noticias;
-    let mensagemSemResultados = 'Nada encontrado. Tente outro termo.';
+    let mensagemSemResultados =
+        'Nenhuma notícia corresponde à busca. Tente outro termo.';
 
     if (carregando) {
         mensagemSemResultados = 'Carregando notícias...';
     } else if (noticias.length === 0) {
         mensagemSemResultados = carregamentoFalhou
-            ? 'Não foi possível carregar as notícias agora.'
+            ? 'Não foi possível carregar as notícias. Atualize a página para tentar novamente.'
             : 'Nenhuma notícia disponível.';
     }
 
@@ -166,7 +167,7 @@ export default function NoticiasPage() {
                 <title>Notícias | GeoGoats</title>
                 <meta
                     name="description"
-                    content="Fique por dentro das notícias e curiosidades mais recentes da Geografia."
+                    content="Notícias e atualidades relacionadas à Geografia."
                 />
 
                 <ScrollEffects />
@@ -185,12 +186,6 @@ export default function NoticiasPage() {
 
                     <div className={styles.heroContent}>
                         <div className={styles.brand}>
-                            <span
-                                data-hero="eyebrow"
-                                className={styles.heroEyebrow}
-                            >
-                                GeoGoats • Atualidades
-                            </span>
                             <h1 data-hero="titulo" className={climateCrisis.className}>
                                 NOTÍCIAS
                             </h1>
@@ -203,11 +198,11 @@ export default function NoticiasPage() {
                     <section className={styles.section}>
                         <div className={styles.sectionHeader}>
                             <h2 data-revelar-texto="letras">
-                                Geografia em Pauta
+                                Notícias de Geografia
                             </h2>
                             <p data-revelar-texto="palavras">
-                                Histórias, ideias e descobertas para entender
-                                melhor o planeta e as pessoas que vivem nele.
+                                Acompanhe notícias sobre território, clima,
+                                cidades e atualidades.
                             </p>
                         </div>
 

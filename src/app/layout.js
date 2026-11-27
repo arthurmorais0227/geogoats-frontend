@@ -6,7 +6,7 @@ import styles from '@/components/Footer.module.css';
 
 export const metadata = {
     title: 'GeoGoats',
-    description: 'Sistema para geográfos e estudantes',
+    description: 'Portal de Geografia para estudantes do Ensino Médio.',
     icons: {
         icon: '/images/icon.png',
     },

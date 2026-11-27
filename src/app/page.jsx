@@ -29,21 +29,21 @@ const caminhos = [
     {
         titulo: 'Geografia Física',
         descricao:
-            'Relevo, clima, hidrografia e vegetação: como a natureza molda o planeta.',
+            'Relevo, clima, rios e vegetação: processos e paisagens naturais.',
         href: '/fisica',
         Icon: Mountain,
     },
     {
         titulo: 'Geografia Humana',
         descricao:
-            'População, cidades, economia e cultura: como a sociedade ocupa o espaço.',
+            'População, cidades, economia e cultura nos espaços habitados.',
         href: '/humana',
         Icon: Users,
     },
     {
         titulo: 'Cartografia',
         descricao:
-            'Mapas, escalas e projeções: como representamos o espaço geográfico.',
+            'Mapas, escalas e projeções cartográficas.',
         href: '/cartografia',
         Icon: MapIcon,
     },
@@ -53,21 +53,21 @@ const emAlta = [
     {
         titulo: 'Sobre Nós',
         descricao:
-            'Conheça o GeoGoats, nossa missão e quem faz parte do projeto.',
+            'Equipe e contexto do projeto integrador.',
         href: '/sobre',
         Icon: Globe,
     },
     {
         titulo: 'Matérias',
         descricao:
-            'Explore as áreas e os temas que conectam natureza, sociedade e espaço.',
+            'Temas de Geografia organizados por assunto.',
         href: '/materias',
         Icon: Compass,
     },
     {
         titulo: 'Notícias',
         descricao:
-            'Acompanhe notícias e descubra a Geografia no mundo atual.',
+            'Notícias e atualidades relacionadas à Geografia.',
         href: '/noticias',
         Icon: Earth,
     },
@@ -215,12 +215,10 @@ export default function Page() {
                     <section className={styles.section}>
                         <div className={styles.sectionHeader}>
                             <h2 data-revelar-texto="letras">
-                                Por Onde Começar?
+                                Áreas da Geografia
                             </h2>
                             <p data-revelar-texto="palavras">
-                                Três caminhos complementares para entender a
-                                Terra: a natureza, a sociedade e a forma como
-                                representamos o espaço.
+                                Explore natureza, sociedade e cartografia.
                             </p>
                         </div>
 
@@ -250,11 +248,11 @@ export default function Page() {
                     <section className={styles.section}>
                         <div className={styles.sectionHeader}>
                             <h2 data-revelar-texto="letras">
-                                Páginas do Projeto
+                                Outras páginas
                             </h2>
                             <p data-revelar-texto="palavras">
-                                Conheça as principais áreas do GeoGoats e
-                                explore o que o projeto tem a oferecer.
+                                Consulte as matérias, acompanhe as notícias ou
+                                conheça o projeto.
                             </p>
                         </div>
 
@@ -278,8 +276,8 @@ export default function Page() {
                             <Search size={18} />
                             <input
                                 type="search"
-                                placeholder="Pesquisar conteúdos..."
-                                aria-label="Pesquisar"
+                                placeholder="Buscar páginas..."
+                                aria-label="Buscar páginas"
                                 value={termo}
                                 onChange={(e) => setTermo(e.target.value)}
                                 onKeyDown={(e) => {
@@ -299,7 +297,7 @@ export default function Page() {
                                     {buscando ? (
                                         <>
                                             <Search size={16} />
-                                            Resultados para “{termo.trim()}”
+                                            Resultados: {termo.trim()}
                                         </>
                                     ) : (
                                         <>
@@ -332,7 +330,7 @@ export default function Page() {
                                     {...troca}
                                 >
                                     <SearchX size={20} />
-                                    Nada encontrado. Tente outro termo.
+                                    Nenhuma página encontrada. Tente outro termo.
                                 </motion.p>
                             )}
                         </AnimatePresence>

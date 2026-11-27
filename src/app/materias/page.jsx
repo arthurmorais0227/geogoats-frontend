@@ -9,8 +9,7 @@ import styles from './materias.module.css';
 
 export const metadata = {
     title: 'Matérias de Geografia | GeoGoats',
-    description:
-        'Explore as principais matérias da Geografia e descubra os temas de cada área.',
+    description: 'Temas de Geografia organizados por assunto.',
 };
 
 export const revalidate = 60;
@@ -74,15 +73,12 @@ export default async function MateriasPage() {
                     aria-labelledby="materias-title"
                 >
                     <div className={styles.sectionHeader}>
-                        <span className={styles.sectionEyebrow}>
-                            Conhecimento em cada caminho
-                        </span>
                         <h2 id="materias-title" data-revelar-texto="letras">
-                            O que você quer explorar?
+                            Temas para estudar
                         </h2>
                         <p data-revelar-texto="palavras">
-                            Navegue pelas principais áreas e encontre os
-                            assuntos que conectam natureza, sociedade e espaço.
+                            Escolha uma área para consultar os temas
+                            disponíveis.
                         </p>
                     </div>
 

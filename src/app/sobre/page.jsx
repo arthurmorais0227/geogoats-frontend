@@ -10,21 +10,21 @@ import styles from './sobre.module.css';
 
 const valores = [
     {
-        titulo: 'Aprender explorando',
+        titulo: 'Matérias',
         descricao:
-            'Acreditamos que a Geografia fica mais fácil quando é descoberta como uma aventura.',
+            'Temas de Geografia organizados por assunto.',
         Icon: Compass,
     },
     {
-        titulo: 'Conteúdo claro',
+        titulo: 'Notícias',
         descricao:
-            'Explicações simples e diretas, feitas para quem está começando ou revisando.',
+            'Atualidades relacionadas a território, clima e cidades.',
         Icon: BookOpen,
     },
     {
-        titulo: 'Feito com carinho',
+        titulo: 'Carreiras e estágio',
         descricao:
-            'Cada detalhe do site foi pensado para tornar o estudo mais leve e divertido.',
+            'Profissões que usam conhecimentos geográficos e informações sobre estágio.',
         Icon: Sparkles,
     },
 ];
@@ -62,13 +62,12 @@ export default async function Page() {
                     className={styles.heroImage}
                 />
                 <div className={styles.heroContent}>
-                    <span className={styles.heroEyebrow}>Conheça o projeto</span>
                     <TituloAnimado className={climateCrisis.className}>
                         SOBRE NÓS
                     </TituloAnimado>
                     <p>
-                        Somos o GeoGoats, um projeto feito para deixar o estudo
-                        de Geografia mais simples e divertido.
+                        Projeto escolar de Geografia desenvolvido por estudantes
+                        do SENAI/SESI Valinhos.
                     </p>
                 </div>
             </header>
@@ -76,16 +75,12 @@ export default async function Page() {
             <main className={styles.main}>
                 <section className={styles.section}>
                     <div className={styles.sectionHeader}>
-                        <span className={styles.sectionEyebrow}>Quem somos</span>
                         <h2 data-revelar-texto="letras">
-                            Nossa missão
+                            O que há no portal
                         </h2>
                         <p data-revelar-texto="palavras">
-                            O GeoGoats nasceu como um projeto escolar com uma
-                            ideia simples: reunir em um só lugar matérias,
-                            notícias, carreiras e dicas de Geografia, com uma
-                            linguagem fácil e um visual que dá vontade de
-                            explorar.
+                            O GeoGoats reúne temas de Geografia, notícias,
+                            carreiras e estágio para estudantes do Ensino Médio.
                         </p>
                     </div>
 
@@ -108,17 +103,15 @@ export default async function Page() {
 
                 <section className={styles.section}>
                     <div className={styles.sectionHeader}>
-                        <span className={styles.sectionEyebrow}>
-                            Nossa equipe
-                        </span>
                         <h2 data-revelar-texto="letras">
-                            Participantes
+                            Equipe GeoGoats
                         </h2>
                     </div>
 
                     {participantes.length === 0 ? (
                         <p className={styles.vazio}>
-                            Não foi possível carregar os participantes agora.
+                            Não foi possível carregar a equipe. Atualize a
+                            página para tentar novamente.
                         </p>
                     ) : (
                         <div className={styles.equipe}>

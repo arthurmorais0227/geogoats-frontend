@@ -40,7 +40,7 @@ export default function CardTema({ tema, indice }) {
                     type="button"
                     onClick={() => setModalAberto(true)}
                 >
-                    Explorar tema <span aria-hidden="true">→</span>
+                    Ver detalhes
                 </button>
             </article>
 

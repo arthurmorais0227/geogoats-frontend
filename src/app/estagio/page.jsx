@@ -5,7 +5,7 @@ import styles from './estagio.module.css';
 
 export const metadata = {
     title: 'Estágios | GeoGoats',
-    description: '',
+    description: 'Informações sobre estágio e direitos de estudantes.',
 };
 
 const contornoNuvem =
@@ -53,8 +53,7 @@ export default function EstagioPage() {
                 >
                     <article className={`${styles.nota} ${styles.notaMissao}`}>
                         <span className={styles.tachinha} aria-hidden="true" />
-                        <p className={styles.rotulo}>Missão Principal</p>
-                        <h2>Missão: Descobrir o que é estágio</h2>
+                        <h2>Entenda o estágio</h2>
                         <p className={styles.legenda}>
                             Experiência de aprendizado no trabalho real, ligada
                             ao teu curso.
@@ -65,7 +64,7 @@ export default function EstagioPage() {
                         className={`${styles.nota} ${styles.notaDireitos}`}
                     >
                         <span className={styles.tachinha} aria-hidden="true" />
-                        <h2>Missão: Conhecer teus direitos</h2>
+                        <h2>Direitos no estágio</h2>
                         <ul>
                             <li>Até 6h por dia / 30h semanais</li>
                             <li>

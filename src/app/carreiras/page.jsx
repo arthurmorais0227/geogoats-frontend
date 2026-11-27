@@ -72,18 +72,15 @@ export default async function Page() {
                             />
                         </div>
                         <div className={`${styles.balao} ${dosis.className}`}>
-                            Em dúvida sobre qual caminho seguir? Pega sua bússola e
-                            vem conferir as carreiras!
+                            Veja profissões ligadas ao território, ao ambiente
+                            e à organização das cidades.
                         </div>
                     </div>
 
                     <div className={styles.introText}>
                         <h2 className={dosis.className} data-revelar-texto="letras">
-                            Profissões que usam Geografia
+                            Profissões ligadas à Geografia
                         </h2>
-                        <p data-revelar-texto="palavras">
-                            Carreiras que envolvem a geografia!
-                        </p>
                     </div>
                 </section>
 
@@ -119,7 +116,8 @@ export default async function Page() {
                         <div className={styles.careerGrid}>
                             {carreiras.length === 0 ? (
                                 <p className={styles.careerEmpty}>
-                                    Não foi possível carregar as carreiras agora.
+                                    Não foi possível carregar as carreiras.
+                                    Atualize a página para tentar novamente.
                                 </p>
                             ) : (
                                 carreiras.map((carreira, indice) => (
