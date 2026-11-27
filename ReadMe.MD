@@ -180,38 +180,31 @@ geogoats-frontend/
 
 ## Variáveis de Ambiente
 
-No momento, o projeto **não possui variáveis de ambiente configuradas** e não contém um arquivo `.env.local`.
-
-Quando a integração com o back-end for implementada, as variáveis deverão ser adicionadas em um arquivo `.env.local`, por exemplo:
+As páginas integradas ao back-end usam as variáveis de servidor `API_URL` e `API_KEY`. Configure-as localmente em `.env.local`:
 
 ```env
 # URL base da API do GeoGoats
-NEXT_PUBLIC_API_URL="http://localhost:3001"
-
-# Chave pública do Clerk, quando a autenticação for integrada
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
+API_URL="http://localhost:3001"
+API_KEY="sua-chave-da-api"
 ```
 
-O arquivo `.env.local` não deve ser versionado. Nunca coloque chaves privadas, tokens ou credenciais diretamente no código-fonte.
+Essas variáveis são lidas no servidor Next.js; não use o prefixo `NEXT_PUBLIC_` para a chave da API. O arquivo `.env.local` não deve ser versionado. Nunca coloque chaves privadas, tokens ou credenciais diretamente no código-fonte.
 
 ---
 
 ## Integração com o Back-end
 
-A integração com o back-end ainda está pendente. Quando estiver disponível, o front-end consumirá a API REST do repositório [GeoGoats Back-end](https://github.com/arthurmorais0227/geogoats-backend).
+A página Estágios carrega as oportunidades pelo endpoint `GET /estagios` da API REST do [GeoGoats Back-end](https://github.com/arthurmorais0227/geogoats-backend). A chamada é feita no servidor Next.js com o cabeçalho `x-api-key`, e o resultado é revalidado a cada 60 segundos. O banco de dados não é acessado diretamente pelo navegador.
 
-Os recursos previstos para consumo pela interface são:
+Outras chamadas já implementadas no front-end incluem:
 
-| Recurso | Caminho previsto |
+| Página/recurso | Caminho |
 | --- | --- |
-| Dicas | `/dicas` |
+| Estágios | `/estagios` |
+| Matérias | `/temas` |
+| Carreiras | `/carreiras` |
 | Participantes | `/participantes` |
-| Simulados | `/simulado` |
-| Videoaulas | `/videoaulas` |
 | Notícias | `/noticias` |
-| Usuários | `/usuarios` |
-
-Os caminhos e os métodos de autenticação devem ser confirmados no momento da integração. Não há, neste momento, chamadas de API implementadas no front-end.
 
 ---
 

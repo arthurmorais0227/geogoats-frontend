@@ -47,14 +47,14 @@
 }
 
 .nuvensFundo {
-    top: calc(100% - 27vw - 3rem);
+    top: calc(100% - 23vw - 3rem);
     z-index: 3;
     color: #cfeac8;
     transform: scaleX(-1);
 }
 
 .nuvensFrente {
-    top: calc(100% - 24vw - 3rem);
+    top: calc(100% - 22vw - 3rem);
     z-index: 4;
     color: var(--fundo);
     filter: drop-shadow(0 -6px 14px rgba(1, 21, 26, 0.18));
@@ -83,7 +83,7 @@
 .main {
     position: relative;
     z-index: 1;
-    padding: 0 2rem 7rem;
+    padding: 2rem 2rem 7rem;
     margin-top: -3rem;
     background: var(--fundo);
 }
@@ -208,6 +208,16 @@
     align-self: flex-start;
 }
 
+.mochila {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: clamp(88px, 12vw, 600px);
+    height: auto;
+    margin: 0.4rem auto 0;
+    object-fit: contain;
+}
+
 .legenda {
     position: relative;
     z-index: 1;
@@ -294,6 +304,21 @@
     transform: rotate(1deg);
 }
 
+.notaAmarela ul,
+.notaBranca ul,
+.notaAzul ul,
+.notaLarga ul {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 0.2rem;
+    margin: 0.45rem 0 0;
+    padding: 0 0 0 1em;
+    list-style: disc;
+    font-size: clamp(0.56rem, 0.78vw, 0.75rem);
+    line-height: 1.15;
+}
+
 .tachinha {
     position: absolute;
     z-index: 2;
@@ -336,6 +361,7 @@
         position: relative;
         inset: auto;
         width: auto;
+        height: auto;
         padding: 1.5rem;
         transform: none;
     }
@@ -366,6 +392,22 @@
         font-size: 0.9rem;
     }
 
+    .notaAmarela h2,
+    .notaBranca h2,
+    .notaAzul h2,
+    .notaLarga h2 {
+        font-size: 1rem;
+    }
+
+    .notaAmarela ul,
+    .notaBranca ul,
+    .notaAzul ul,
+    .notaLarga ul {
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+
     .notaAmarela,
     .notaBranca {
         min-height: 155px;
@@ -392,13 +434,148 @@
     }
 }
 
+.saudacao {
+    display: flex;
+    width: min(680px, 100%);
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem auto 0;
+}
+
+.mascote {
+    display: grid;
+    width: 150px;
+    height: 150px;
+    flex: 0 0 150px;
+    place-items: center;
+    overflow: hidden;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: #d8f1d2;
+    box-shadow: 0 3px 12px rgba(1, 21, 26, 0.12);
+}
+
+.mascoteImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 26%;
+}
+
+.balao {
+    position: relative;
+    display: flex;
+    min-height: 100px;
+    flex: 1;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid #e4e4e4;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(1, 21, 26, 0.04);
+    color: #111;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.oportunidades {
+    width: min(1200px, 100%);
+    margin: 4rem auto 0;
+}
+
+.oportunidades > h2 {
+    margin: 0 0 1.5rem;
+    color: var(--titulo);
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    text-align: center;
+}
+
+.estagiosGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 1.25rem;
+}
+
+.estagioCard {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(1, 21, 26, 0.08);
+}
+
+.estagioCard h3 {
+    margin: 0;
+    color: var(--titulo);
+    font-size: 1.2rem;
+    line-height: 1.3;
+}
+
+.estagioCard p {
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.estagioCard strong {
+    color: var(--titulo);
+}
+
+.estagioCard .dataPublicacao {
+    margin-top: auto;
+    color: #6f7770;
+    font-size: 0.875rem;
+}
+
+.linkInscricao {
+    align-self: flex-start;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    background: var(--verde);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.linkInscricao:hover {
+    background: #31b941;
+}
+
+.mensagemEstagios {
+    color: #4a7d5c;
+    text-align: center;
+}
+
 @media (max-width: 560px) {
     .heroContent {
         padding: 9rem 1rem 0;
     }
 
     .main {
-        padding: 0 1rem 5rem;
+        padding: 3rem 1rem 5rem;
+    }
+
+    .saudacao {
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+
+    .mascote {
+        width: 72px;
+        height: 72px;
+        flex-basis: 72px;
+    }
+
+    .balao {
+        min-height: 72px;
+        padding: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.25;
     }
 
     .mural {
