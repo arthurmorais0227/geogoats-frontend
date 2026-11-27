@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import { Component } from '@/components/ui/liquid-glass';
+import { ACESSO } from '@/lib/acesso';
 import styles from './Navbar.module.css';
 
 const links = [
@@ -21,6 +23,11 @@ const links = [
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const { user, isSignedIn } = useUser();
+    const areas = Object.keys(ACESSO).filter((rota) =>
+        ACESSO[rota].includes(user?.publicMetadata?.role),
+    );
 
     useEffect(() => {
         const fecharMenu = () => {
@@ -61,6 +68,32 @@ export default function Navbar() {
                         </ul>
                     </nav>
                 </Component>
+
+                <div className={styles.conta}>
+                    {!isSignedIn ? (
+                        <>
+                            <SignInButton mode="modal">
+                                <button type="button" className={styles.navLink}>
+                                    Entrar
+                                </button>
+                            </SignInButton>
+                            <SignUpButton mode="modal">
+                                <button type="button" className={styles.navLink}>
+                                    Cadastrar
+                                </button>
+                            </SignUpButton>
+                        </>
+                    ) : (
+                        <>
+                            {areas.map((rota) => (
+                                <Link key={rota} href={`/${rota}`} className={styles.navLink}>
+                                    {rota}
+                                </Link>
+                            ))}
+                            <UserButton />
+                        </>
+                    )}
+                </div>
 
                 <button
                     type="button"
